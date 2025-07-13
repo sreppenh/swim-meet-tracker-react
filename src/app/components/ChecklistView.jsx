@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { useSwimmers } from '../hooks/useSwimmers';
 import { useEvents } from '../hooks/useEvents';
+import { useMeet } from '../hooks/useMeet';
 
 function abbreviateEventName(eventName) {
   if (!eventName) return eventName;
@@ -33,6 +34,7 @@ function getEventIcon(eventName, relayPosition) {
 export default function ChecklistView() {
   const { swimmers } = useSwimmers();
   const { events, toggleEventCompleted, getSortedEvents } = useEvents();
+  const { currentMeet } = useMeet();
   const [showShareModal, setShowShareModal] = useState(false);
 
   const sortedEvents = getSortedEvents();
@@ -40,7 +42,15 @@ export default function ChecklistView() {
   const generateShareText = () => {
     if (sortedEvents.length === 0) return 'No events to share!';
     
-    let shareText = '🏊‍♀️ Swim Meet Event List\n\n';
+    // Start with meet information
+    let shareText = `🏊‍♀️ ${currentMeet?.name || 'Swim Meet'} Event List\n`;
+    if (currentMeet?.poolType) {
+      shareText += `Pool: ${currentMeet.poolType}\n`;
+    }
+    if (currentMeet?.date) {
+      shareText += `Date: ${new Date(currentMeet.date).toLocaleDateString()}\n`;
+    }
+    shareText += '\n';
     
     sortedEvents.forEach(event => {
       const swimmer = swimmers.find(s => s.id === event.swimmerId);
@@ -143,16 +153,13 @@ export default function ChecklistView() {
   return (
     <div>
       {/* Header */}
-      <div style={{ 
-        display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' 
-      }}>
+      <div className="checklist-header">
         <h3 style={{ color: '#374151' }}>Event Checklist</h3>
         <button
           onClick={shareEventList}
-          className="btn"
-          style={{ background: '#10b981' }}
+          className="btn share-btn"
         >
-          📤 Share List
+          📤 Share
         </button>
       </div>
 

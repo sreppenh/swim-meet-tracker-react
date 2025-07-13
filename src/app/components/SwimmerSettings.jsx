@@ -58,17 +58,14 @@ const ColorIconPicker = ({ swimmer, onUpdate, onCancel }) => {
           </button>
         </div>
 
-        {/* Preview */}
+        {/* Preview - Just show swimmer customization */}
         <div style={{ marginBottom: '24px', padding: '16px', background: '#f9fafb', borderRadius: '8px' }}>
           <p style={{ fontSize: '14px', marginBottom: '8px', color: '#6b7280' }}>Preview:</p>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             <div className={`compact-event-number swimmer-color-${selectedColor}`}>15</div>
-            <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: '600' }}>
-                <span style={{ fontSize: '18px' }}>{selectedIcon}</span>
-                <span>{swimmer.name}</span>
-              </div>
-              <div style={{ fontSize: '14px', color: '#6b7280' }}>100 Freestyle • Seed: 1:23.45</div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: '600' }}>
+              <span style={{ fontSize: '18px' }}>{selectedIcon}</span>
+              <span>{swimmer.name}</span>
             </div>
           </div>
         </div>
@@ -87,8 +84,7 @@ const ColorIconPicker = ({ swimmer, onUpdate, onCancel }) => {
                   background: selectedColor === index ? '#eff6ff' : 'white'
                 }}
               >
-                <div className={`swimmer-color-${index}`} style={{ height: '32px', borderRadius: '4px', marginBottom: '4px' }}></div>
-                <span style={{ fontSize: '12px', color: '#6b7280' }}>{color.name}</span>
+                <div className={`swimmer-color-${index}`} style={{ height: '32px', borderRadius: '4px' }}></div>
               </button>
             ))}
           </div>
@@ -190,44 +186,28 @@ export default function SwimmerSettings({ onClose }) {
             {swimmers.map(swimmer => (
               <div 
                 key={swimmer.id} 
-                style={{
-                  background: '#f9fafb', border: '1px solid #e5e7eb', borderRadius: '8px',
-                  padding: '16px', marginBottom: '12px'
-                }}
+                className="swimmer-settings-item"
               >
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                    <div className={`swimmer-color-${swimmer.colorIndex}`} style={{ width: '24px', height: '24px', borderRadius: '4px' }}></div>
-                    <span style={{ fontSize: '20px' }}>{swimmer.icon}</span>
-                    <span style={{ fontWeight: '600', color: '#374151' }}>{swimmer.name}</span>
-                    <span style={{ fontSize: '14px', color: '#6b7280' }}>
-                      ({SWIMMER_COLORS[swimmer.colorIndex]?.name})
-                    </span>
-                  </div>
-                  <div style={{ display: 'flex', gap: '8px' }}>
-                    <button
-                      onClick={() => setEditingSwimmer(swimmer)}
-                      style={{
-                        display: 'flex', alignItems: 'center', gap: '4px',
-                        background: '#eff6ff', border: '1px solid #bfdbfe', borderRadius: '6px',
-                        padding: '6px 12px', cursor: 'pointer', color: '#2563eb'
-                      }}
-                    >
-                      <Palette style={{ width: '16px', height: '16px' }} />
-                      Change
-                    </button>
-                    <button
-                      onClick={() => handleDeleteSwimmer(swimmer)}
-                      style={{
-                        display: 'flex', alignItems: 'center', gap: '4px',
-                        background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '6px',
-                        padding: '6px 12px', cursor: 'pointer', color: '#dc2626'
-                      }}
-                    >
-                      <Trash2 style={{ width: '16px', height: '16px' }} />
-                      Remove
-                    </button>
-                  </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                  <div className={`swimmer-color-${swimmer.colorIndex}`} style={{ width: '24px', height: '24px', borderRadius: '4px' }}></div>
+                  <span style={{ fontSize: '20px' }}>{swimmer.icon}</span>
+                  <span style={{ fontWeight: '600', color: '#374151' }}>{swimmer.name}</span>
+                </div>
+                <div style={{ display: 'flex', gap: '8px' }}>
+                  <button
+                    onClick={() => setEditingSwimmer(swimmer)}
+                    className="swimmer-change-btn"
+                  >
+                    <Palette style={{ width: '16px', height: '16px' }} />
+                    Change
+                  </button>
+                  <button
+                    onClick={() => handleDeleteSwimmer(swimmer)}
+                    className="swimmer-remove-btn"
+                  >
+                    <Trash2 style={{ width: '16px', height: '16px' }} />
+                    Remove
+                  </button>
                 </div>
               </div>
             ))}
