@@ -144,8 +144,14 @@ export default function EventManager() {
   };
 
   const handleSeedTimeChange = (e) => {
-    setSeedTime(e.target.value);
-    formatSeedTime(e.target);
+    const newValue = e.target.value;
+    setSeedTime(newValue);
+    
+    // Use setTimeout to ensure the state is updated before formatting
+    setTimeout(() => {
+      formatSeedTime(e.target);
+      setSeedTime(e.target.value);
+    }, 0);
   };
 
   return (
@@ -251,9 +257,9 @@ export default function EventManager() {
               </select>
             </div>
           )}
-<div className="form-group" style={{ marginTop: '10px' }}>
-  <button className="btn" onClick={handleAddEvent} style={{ width: '100%' }}>Add Event</button>
-</div>
+          <div className="form-group">
+            <button className="btn add-event-btn" onClick={handleAddEvent}>Add Event</button>
+          </div>
         </div>
       </div>
 
@@ -298,13 +304,16 @@ export default function EventManager() {
                     <span className="compact-lane">L{event.lane}</span>
                   </div>
                   <button 
-                    className="btn btn-danger" 
+                    className="btn-danger delete-btn" 
                     onClick={() => {
                       if (confirm('Are you sure you want to delete this event?')) {
                         deleteEvent(event.id);
                       }
                     }}
-                  ></button>
+                    title="Delete event"
+                  >
+                    ×
+                  </button>
                 </div>
               );
             })
