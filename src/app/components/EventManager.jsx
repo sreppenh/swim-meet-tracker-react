@@ -251,9 +251,9 @@ export default function EventManager() {
               </select>
             </div>
           )}
-          <div style={{ display: 'flex', gap: '10px', alignItems: 'end' }}>
-            <button className="btn" onClick={handleAddEvent}>Add Event</button>
-          </div>
+<div className="form-group" style={{ marginTop: '10px' }}>
+  <button className="btn" onClick={handleAddEvent} style={{ width: '100%' }}>Add Event</button>
+</div>
         </div>
       </div>
 
