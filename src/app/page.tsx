@@ -74,13 +74,13 @@ export default function SwimMeetTracker() {
             className={`nav-tab ${currentView === 'manage' ? 'active' : ''}`}
             onClick={() => setCurrentView('manage')}
           >
-            Manage Events
+            ⚙️ Manage Events
           </button>
           <button
             className={`nav-tab ${currentView === 'checklist' ? 'active' : ''}`}
             onClick={() => setCurrentView('checklist')}
           >
-            Event Checklist
+            📋 Event Checklist
           </button>
         </div>
 
