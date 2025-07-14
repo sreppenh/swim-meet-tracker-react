@@ -11,7 +11,6 @@ import { useMeet } from './hooks/useMeet';
 export default function SwimMeetTracker() {
   const [isClient, setIsClient] = useState(false);
   const [currentView, setCurrentView] = useState('manage');
-  const [showSettings, setShowSettings] = useState(false);
   const { currentMeet, createMeet, clearMeet } = useMeet();
 
   useEffect(() => {
@@ -36,20 +35,20 @@ export default function SwimMeetTracker() {
   return (
     <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', padding: '20px' }}>
       <div className="container">
-        {/* Simplified Header */}
-        <div className="header">
+        {/* Fixed Header with Better Contrast */}
+        <div className="app-header">
           <div className="header-content">
             <div className="meet-info">
               <h1>🏊‍♀️ {currentMeet.name}</h1>
-              <div className="subtitle">
+              <div className="meet-subtitle">
                 {currentMeet.poolType && `${currentMeet.poolType} • `}
                 {currentMeet.date && new Date(currentMeet.date).toLocaleDateString()}
               </div>
             </div>
             <div className="header-actions">
               <button
-                onClick={() => setShowSettings(true)}
-                className="header-btn settings-btn"
+                onClick={() => setCurrentView('settings')}
+                className="btn-ghost"
                 title="Swimmer Settings"
               >
                 <Settings style={{ width: '16px', height: '16px' }} />
@@ -60,7 +59,7 @@ export default function SwimMeetTracker() {
                     clearMeet();
                   }
                 }}
-                className="header-btn clear-meet-btn"
+                className="btn-ghost"
               >
                 Clear Meet
               </button>
@@ -68,32 +67,35 @@ export default function SwimMeetTracker() {
           </div>
         </div>
 
-        {/* Cleaner Navigation Tabs */}
-        <div className="nav-tabs">
+        {/* Navigation with Settings Tab */}
+        <div className="nav-container">
           <button
-            className={`nav-tab ${currentView === 'manage' ? 'active' : ''}`}
+            className={`nav-button ${currentView === 'manage' ? 'active' : ''}`}
             onClick={() => setCurrentView('manage')}
           >
             ⚙️ Manage Events
           </button>
           <button
-            className={`nav-tab ${currentView === 'checklist' ? 'active' : ''}`}
+            className={`nav-button ${currentView === 'checklist' ? 'active' : ''}`}
             onClick={() => setCurrentView('checklist')}
           >
             📋 Event Checklist
+          </button>
+          <button
+            className={`nav-button ${currentView === 'settings' ? 'active' : ''}`}
+            onClick={() => setCurrentView('settings')}
+          >
+            👤 Swimmers
           </button>
         </div>
 
         {/* Content */}
         <div className="content">
-          {currentView === 'manage' ? <EventManager /> : <ChecklistView />}
+          {currentView === 'manage' && <EventManager />}
+          {currentView === 'checklist' && <ChecklistView />}
+          {currentView === 'settings' && <SwimmerSettings />}
         </div>
       </div>
-
-      {/* Settings Modal */}
-      {showSettings && (
-        <SwimmerSettings onClose={() => setShowSettings(false)} />
-      )}
     </div>
   );
 }

@@ -162,7 +162,7 @@ export default function ChecklistView() {
         <h3 style={{ color: '#374151' }}>Event Checklist</h3>
         <button
           onClick={shareEventList}
-          className="btn share-btn"
+          className="btn-success"
         >
           📤 Share
         </button>
@@ -178,7 +178,7 @@ export default function ChecklistView() {
             return (
               <div 
                 key={event.id} 
-                className={`compact-event-item ${event.completed ? 'completed' : ''}`}
+                className={`standard-list-item ${event.completed ? 'completed' : ''}`}
               >
                 <div className={`compact-event-number swimmer-color-${swimmer.colorIndex}`}>
                   {event.eventNumber}
