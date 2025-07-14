@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Settings } from 'lucide-react';
 import MeetSetup from './components/MeetSetup';
 import EventManager from './components/EventManager';
 import ChecklistView from './components/ChecklistView';
@@ -45,25 +44,18 @@ export default function SwimMeetTracker() {
                 {currentMeet.date && new Date(currentMeet.date).toLocaleDateString()}
               </div>
             </div>
-            <div className="header-actions">
-              <button
-                onClick={() => setCurrentView('settings')}
-                className="btn-ghost"
-                title="Swimmer Settings"
-              >
-                <Settings style={{ width: '16px', height: '16px' }} />
-              </button>
-              <button
-                onClick={() => {
-                  if (confirm('This will clear all data and start over. Continue?')) {
-                    clearMeet();
-                  }
-                }}
-                className="btn-ghost"
-              >
-                Clear Meet
-              </button>
-            </div>
+<div className="header-actions">
+  <button
+    onClick={() => {
+      if (confirm('This will clear all data and start over. Continue?')) {
+        clearMeet();
+      }
+    }}
+    className="btn-ghost"
+  >
+    🗑️ Clear Meet
+  </button>
+</div>
           </div>
         </div>
 

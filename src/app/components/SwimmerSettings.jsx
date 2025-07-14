@@ -61,20 +61,31 @@ const ColorIconPicker = ({ swimmer, onUpdate, onCancel }) => {
         {/* Preview */}
         <div style={{ marginBottom: '24px', padding: '16px', background: '#f9fafb', borderRadius: '8px' }}>
           <p style={{ fontSize: '14px', marginBottom: '8px', color: '#6b7280' }}>Preview:</p>
-          <div className="standard-list-item" style={{ margin: 0, border: '1px solid #e5e7eb', borderRadius: '6px' }}>
-            <div className={`compact-event-number swimmer-color-${selectedColor}`} style={{ minWidth: '45px', padding: '6px 10px' }}>15</div>
-            <div style={{ flex: 1 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: '600' }}>
-                <span style={{ fontSize: '18px' }}>{selectedIcon}</span>
-                <span>{swimmer.name}</span>
-              </div>
-              <div style={{ fontSize: '14px', color: '#6b7280' }}>100 Freestyle • Seed: 1:23.45</div>
-            </div>
-            <div style={{ display: 'flex', gap: '6px' }}>
-              <span style={{ background: '#e5e7eb', padding: '2px 6px', borderRadius: '3px', fontSize: '0.8em' }}>H4</span>
-              <span style={{ background: '#e5e7eb', padding: '2px 6px', borderRadius: '3px', fontSize: '0.8em' }}>L3</span>
-            </div>
-          </div>
+         <div style={{ 
+  display: 'flex', 
+  alignItems: 'center', 
+  gap: '12px',
+  minWidth: '100px'
+}}>
+  <div 
+    className={`swimmer-color-${swimmer.colorIndex}`} 
+    style={{ 
+      width: '32px', 
+      height: '32px', 
+      borderRadius: '6px',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      fontSize: '0px'
+    }}
+  />
+  <div style={{ 
+    fontSize: '20px',
+    minWidth: '24px'
+  }}>
+    {swimmer.icon}
+  </div>
+</div>
         </div>
 
         {/* Color Selection */}
@@ -181,18 +192,23 @@ export default function SwimmerSettings() {
                 </div>
                 <div style={{ display: 'flex', gap: '8px' }}>
                   <button
-                    onClick={() => setEditingSwimmer(swimmer)}
-                    className="btn-secondary"
-                  >
-                    <Palette style={{ width: '16px', height: '16px' }} />
-                    Change
-                  </button>
+  onClick={() => setEditingSwimmer(swimmer)}
+  className="btn-secondary"
+  style={{ padding: '6px 12px', fontSize: '0.8em' }}
+>
+  🎨 Edit
+</button>
                   <button
-                    onClick={() => handleDeleteSwimmer(swimmer)}
-                    className="btn-danger"
-                  >
-                    <Trash2 style={{ width: '16px', height: '16px' }} />
-                  </button>
+  onClick={() => handleDeleteSwimmer(swimmer)}
+  className="btn-danger"
+  style={{ 
+    padding: '6px 8px',
+    fontSize: '0.9em',
+    minWidth: '36px'
+  }}
+>
+  🗑️
+</button>
                 </div>
               </div>
             ))}
