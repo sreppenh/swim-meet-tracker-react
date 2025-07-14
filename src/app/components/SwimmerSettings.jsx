@@ -179,9 +179,26 @@ export default function SwimmerSettings() {
           <div>
             {swimmers.map(swimmer => (
               <div key={swimmer.id} className="standard-list-item">
-                <div className={`compact-event-number swimmer-color-${swimmer.colorIndex}`} style={{ minWidth: '45px', padding: '6px 10px' }}>
-                  {swimmer.icon}
-                </div>
+                <div style={{ 
+  display: 'flex', 
+  alignItems: 'center', 
+  gap: '12px',
+  minWidth: '100px'
+}}>
+  <div 
+    className={`swimmer-color-${swimmer.colorIndex}`} 
+    style={{ 
+      width: '32px', 
+      height: '32px', 
+      borderRadius: '6px'
+    }}
+  />
+  <div style={{ 
+    fontSize: '20px'
+  }}>
+    {swimmer.icon}
+  </div>
+</div>
                 <div style={{ flex: 1 }}>
                   <div style={{ fontWeight: '600', color: '#374151', marginBottom: '4px' }}>
                     {swimmer.name}
@@ -198,16 +215,22 @@ export default function SwimmerSettings() {
 >
   🎨 Edit
 </button>
-                  <button
-  onClick={() => handleDeleteSwimmer(swimmer)}
-  className="btn-danger"
-  style={{ 
-    padding: '6px 8px',
-    fontSize: '0.9em',
-    minWidth: '36px'
+                 <button 
+  className="btn-danger" 
+  onClick={() => {
+    if (confirm('Are you sure you want to delete this event?')) {
+      deleteEvent(event.id);
+    }
+  }}
+  title="Delete event"
+  style={{
+    padding: '4px 6px',
+    fontSize: '12px',
+    minWidth: '28px',
+    minHeight: '28px'
   }}
 >
-  🗑️
+  ×
 </button>
                 </div>
               </div>

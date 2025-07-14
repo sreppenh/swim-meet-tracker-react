@@ -304,16 +304,22 @@ export default function EventManager() {
                     <span className="compact-lane">L{event.lane}</span>
                   </div>
                   <button 
-                    className="btn-danger" 
-                    onClick={() => {
-                      if (confirm('Are you sure you want to delete this event?')) {
-                        deleteEvent(event.id);
-                      }
-                    }}
-                    title="Delete event"
-                  >
-                    ×
-                  </button>
+  className="btn-danger" 
+  onClick={() => {
+    if (confirm('Are you sure you want to delete this event?')) {
+      deleteEvent(event.id);
+    }
+  }}
+  title="Delete event"
+  style={{
+    padding: '4px 6px',
+    fontSize: '12px',
+    minWidth: '28px',
+    minHeight: '28px'
+  }}
+>
+  ×
+</button>
                 </div>
               );
             })
