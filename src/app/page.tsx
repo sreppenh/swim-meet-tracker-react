@@ -44,7 +44,6 @@ export default function SwimMeetTracker() {
   color: 'white'
 }}>
   <h1 style={{ margin: 0, fontSize: '1.5em' }}>🏊‍♀️ Swim Meet Tracker</h1>
-  <p style={{ margin: '8px 0 0 0', opacity: 0.9 }}>Organized event tracking for swim meets</p>
 </div>
 
 {/* White info bar */}
@@ -56,7 +55,7 @@ export default function SwimMeetTracker() {
   alignItems: 'center',
   borderBottom: '1px solid #e5e7eb'
 }}>
-  <div style={{ color: '#0369a1', fontWeight: 600, fontSize: '1.1em' }}>
+  <div style={{ color: '#0369a1', fontWeight: 600, fontSize: '0.9em' }}>
     {currentMeet.name} {currentMeet.poolType && `(${currentMeet.poolType})`} • {currentMeet.date && new Date(currentMeet.date).toLocaleDateString()}
   </div>
   <button
@@ -75,7 +74,7 @@ export default function SwimMeetTracker() {
       fontSize: '0.9em'
     }}
   >
-    Clear Meet
+    Clear
   </button>
 </div>
 
@@ -98,7 +97,7 @@ export default function SwimMeetTracker() {
     className={`nav-button ${currentView === 'settings' ? 'active' : ''}`}
     onClick={() => setCurrentView('settings')}
   >
-    🏊‍♀️ Swimmers
+    Swimmers
   </button>
 </div>
 
