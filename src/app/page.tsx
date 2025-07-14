@@ -34,52 +34,76 @@ export default function SwimMeetTracker() {
   return (
     <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', padding: '20px' }}>
       <div className="container">
-        {/* Fixed Header with Better Contrast */}
-        <div className="app-header">
-          <div className="header-content">
-            <div className="meet-info">
-              <h1>🏊‍♀️ {currentMeet.name}</h1>
-              <div className="meet-subtitle">
-                {currentMeet.poolType && `${currentMeet.poolType} • `}
-                {currentMeet.date && new Date(currentMeet.date).toLocaleDateString()}
-              </div>
-            </div>
-<div className="header-actions">
+
+
+{/* Blue header bar */}
+<div style={{
+  background: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+  padding: '20px',
+  textAlign: 'center',
+  color: 'white'
+}}>
+  <h1 style={{ margin: 0, fontSize: '1.5em' }}>🏊‍♀️ Swim Meet Tracker</h1>
+  <p style={{ margin: '8px 0 0 0', opacity: 0.9 }}>Organized event tracking for swim meets</p>
+</div>
+
+{/* White info bar */}
+<div style={{
+  background: 'white',
+  padding: '16px 20px',
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  borderBottom: '1px solid #e5e7eb'
+}}>
+  <div style={{ color: '#0369a1', fontWeight: 600, fontSize: '1.1em' }}>
+    {currentMeet.name} {currentMeet.poolType && `(${currentMeet.poolType})`} • {currentMeet.date && new Date(currentMeet.date).toLocaleDateString()}
+  </div>
   <button
     onClick={() => {
       if (confirm('This will clear all data and start over. Continue?')) {
         clearMeet();
       }
     }}
-    className="btn-ghost"
+    style={{
+      background: '#6b7280',
+      color: 'white',
+      border: 'none',
+      padding: '8px 16px',
+      borderRadius: '6px',
+      cursor: 'pointer',
+      fontSize: '0.9em'
+    }}
   >
-    🗑️ Clear Meet
+    Clear Meet
   </button>
 </div>
-          </div>
-        </div>
 
-        {/* Navigation with Settings Tab */}
-        <div className="nav-container">
-          <button
-            className={`nav-button ${currentView === 'manage' ? 'active' : ''}`}
-            onClick={() => setCurrentView('manage')}
-          >
-            ⚙️ Manage Events
-          </button>
-          <button
-            className={`nav-button ${currentView === 'checklist' ? 'active' : ''}`}
-            onClick={() => setCurrentView('checklist')}
-          >
-            📋 Event Checklist
-          </button>
-          <button
-            className={`nav-button ${currentView === 'settings' ? 'active' : ''}`}
-            onClick={() => setCurrentView('settings')}
-          >
-            👤 Swimmers
-          </button>
-        </div>
+ 
+
+       <div className="nav-container">
+  <button
+    className={`nav-button ${currentView === 'manage' ? 'active' : ''}`}
+    onClick={() => setCurrentView('manage')}
+  >
+    ⚙️ Manage
+  </button>
+  <button
+    className={`nav-button ${currentView === 'checklist' ? 'active' : ''}`}
+    onClick={() => setCurrentView('checklist')}
+  >
+    📋 Checklist
+  </button>
+  <button
+    className={`nav-button ${currentView === 'settings' ? 'active' : ''}`}
+    onClick={() => setCurrentView('settings')}
+  >
+    👤 Swimmers
+  </button>
+</div>
+
+
+
 
         {/* Content */}
         <div className="content">
