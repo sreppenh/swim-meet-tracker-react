@@ -1675,3 +1675,25 @@ input::placeholder, select option[value=""] {
         font-size: 0.85em !important; /* Was too small */
     }
 }
+
+.btn-secondary {
+    background: white !important;
+    color: #374151 !important;
+    border: 1px solid #e5e7eb !important;
+    padding: 4px 8px !important;
+    border-radius: 4px !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    height: 28px !important;
+    min-height: 28px !important;
+    max-height: 28px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    line-height: 1 !important;
+}
+
+.btn-secondary:hover {
+    background: #f9fafb !important;
+    border-color: #d1d5db !important;
+}
