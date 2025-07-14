@@ -128,14 +128,36 @@ const ColorIconPicker = ({ swimmer, onUpdate, onCancel }) => {
           </div>
         </div>
 
-        <div style={{ display: 'flex', gap: '12px' }}>
-          <button onClick={onCancel} className="btn-secondary">
-            Cancel
-          </button>
-          <button onClick={handleSave} className="btn-primary">
-            Save Changes
-          </button>
-        </div>
+<div style={{ display: 'flex', gap: '12px' }}>
+  <button 
+    
+  onClick={onCancel} 
+  style={{ 
+    flex: 1, 
+    padding: '12px 20px',
+    height: '44px',
+    border: '1px solid #e5e7eb',
+    background: 'white',
+    borderRadius: '6px',
+    cursor: 'pointer',
+    fontWeight: '600'
+  }}
+>
+  Cancel
+</button>
+  <button 
+    onClick={handleSave} 
+    className="btn-primary"
+    style={{ 
+      flex: 1, 
+      padding: '12px 20px !important',
+      height: '44px !important',
+      minHeight: '44px !important'
+    }}
+  >
+    Save Changes
+  </button>
+</div>
       </div>
     </div>
   );
@@ -182,19 +204,18 @@ export default function SwimmerSettings() {
                 <div style={{ 
   display: 'flex', 
   alignItems: 'center', 
-  gap: '12px',
-  minWidth: '100px'
+  gap: '8px'
 }}>
   <div 
     className={`swimmer-color-${swimmer.colorIndex}`} 
     style={{ 
-      width: '32px', 
-      height: '32px', 
-      borderRadius: '6px'
+      width: '24px', 
+      height: '24px', 
+      borderRadius: '4px'
     }}
   />
   <div style={{ 
-    fontSize: '20px'
+    fontSize: '24px'
   }}>
     {swimmer.icon}
   </div>
@@ -211,7 +232,13 @@ export default function SwimmerSettings() {
                   <button
   onClick={() => setEditingSwimmer(swimmer)}
   className="btn-secondary"
-  style={{ padding: '6px 12px', fontSize: '0.8em' }}
+  style={{ 
+    padding: '4px 8px', 
+    fontSize: '12px',
+    height: '28px',
+    minHeight: '28px',
+    maxHeight: '28px'
+  }}
 >
   🎨 Edit
 </button>
