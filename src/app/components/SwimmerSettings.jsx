@@ -221,31 +221,38 @@ export default function SwimmerSettings() {
   </div>
 </div>
                 <div style={{ flex: 1 }}>
-                  <div style={{ fontWeight: '600', color: '#374151', marginBottom: '4px' }}>
-                    {swimmer.name}
-                  </div>
-                  <div style={{ fontSize: '0.85em', color: '#6b7280' }}>
-                    {events.filter(e => e.swimmerId === swimmer.id).length} event{events.filter(e => e.swimmerId === swimmer.id).length !== 1 ? 's' : ''}
-                  </div>
-                </div>
+  <div style={{ fontWeight: '600', color: '#374151' }}>
+    {swimmer.name}
+  </div>
+</div>
                 <div style={{ display: 'flex', gap: '8px' }}>
-                  <button
+
+
+
+
+
+
+
+
+
+<button
   onClick={() => setEditingSwimmer(swimmer)}
   className="btn-secondary"
   style={{ 
     padding: '4px 8px', 
     fontSize: '12px',
     height: '28px',
-    minHeight: '28px',
-    maxHeight: '28px'
+    minHeight: '28px'
   }}
 >
   🎨 Edit
 </button>
+
+
                  <button 
   className="btn-danger" 
   onClick={() => {
-    if (confirm('Are you sure you want to delete this event?')) {
+    if (confirm('Are you sure you want to delete this swimmer?')) {
       deleteEvent(event.id);
     }
   }}
