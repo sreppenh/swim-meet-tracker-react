@@ -1697,3 +1697,22 @@ input::placeholder, select option[value=""] {
     background: #f9fafb !important;
     border-color: #d1d5db !important;
 }
+
+/* Fix date input styling */
+input[type="date"] {
+    width: 100% !important;
+    max-width: 100% !important;
+    text-align: left !important;
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    box-sizing: border-box !important;
+}
+
+/* Mobile specific date input fix */
+@media (max-width: 768px) {
+    input[type="date"] {
+        font-size: 16px !important; /* Prevents zoom on iOS */
+        text-align: left !important;
+        padding-left: 12px !important;
+    }
+}
