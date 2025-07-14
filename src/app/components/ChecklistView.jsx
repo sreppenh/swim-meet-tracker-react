@@ -18,6 +18,8 @@ function abbreviateEventName(eventName) {
     .replace(/Butterfly/g, 'Fly');
 }
 
+
+
 function isRelayEvent(eventName) {
   if (!eventName) return false;
   return eventName.toLowerCase().includes('relay');
@@ -35,11 +37,14 @@ export default function ChecklistView() {
   const { swimmers } = useSwimmers();
   const { events, toggleEventCompleted, getSortedEvents } = useEvents();
   const { currentMeet } = useMeet();
+
   const [showShareModal, setShowShareModal] = useState(false);
+  
 
   const sortedEvents = getSortedEvents();
 
   const generateShareText = () => {
+  
     if (sortedEvents.length === 0) return 'No events to share!';
     
     // Start with meet information
