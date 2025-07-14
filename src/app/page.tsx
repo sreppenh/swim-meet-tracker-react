@@ -85,7 +85,7 @@ export default function SwimMeetTracker() {
     className={`nav-button ${currentView === 'manage' ? 'active' : ''}`}
     onClick={() => setCurrentView('manage')}
   >
-    ⚙️ Manage
+    🏊 Events
   </button>
   <button
     className={`nav-button ${currentView === 'checklist' ? 'active' : ''}`}
@@ -97,7 +97,7 @@ export default function SwimMeetTracker() {
     className={`nav-button ${currentView === 'settings' ? 'active' : ''}`}
     onClick={() => setCurrentView('settings')}
   >
-    Swimmers
+    ⚙️ Settings
   </button>
 </div>
 
