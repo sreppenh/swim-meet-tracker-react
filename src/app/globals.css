@@ -606,7 +606,7 @@ input::placeholder, select option[value=""] {
     background: #4b5563;
 }
 
-/* Mobile Responsive Header */
+/* Mobile Responsive */
 @media (max-width: 768px) {
     body {
         padding: 10px;
@@ -691,17 +691,6 @@ input::placeholder, select option[value=""] {
         min-width: 32px;
         height: 32px;
         border-radius: 4px;
-    }
-    
-    .event-item {
-        grid-template-columns: 1fr;
-        gap: 15px;
-        text-align: left;
-        padding: 15px;
-    }
-    
-    .heat-lane {
-        justify-content: flex-start;
     }
     
     .compact-event-item {
@@ -982,5 +971,197 @@ input::placeholder, select option[value=""] {
     
     .subtitle {
         font-size: 1em;
+    }
+}
+
+/* CRITICAL FIXES - Add these to your CSS */
+
+/* Remove debug styles */
+.nav-tab {
+    background: transparent !important;
+}
+.header-btn {
+    background: rgba(255,255,255,0.2) !important;
+}
+
+/* Fix the white box issue - probably from meet-info class conflict */
+.meet-info {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+/* Fix delete button - remove black border and make it clean */
+.btn-danger, .delete-btn {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%) !important;
+    border: none !important;
+    outline: none !important;
+    color: white !important;
+    font-weight: bold !important;
+}
+
+.delete-btn:hover {
+    background: linear-gradient(135deg, #ff5252 0%, #e53e3e 100%) !important;
+    transform: none !important;
+}
+
+/* Fix navigation tabs - ensure text is visible */
+/* Replace the nav-tabs styles with this original button design */
+
+.nav-tabs {
+    display: flex !important;
+    background: #f1f5f9 !important;
+    border-radius: 8px !important;
+    padding: 4px !important;
+    margin: 0 20px 20px 20px !important;
+    gap: 4px !important;
+}
+
+.nav-tab {
+    flex: 1 !important;
+    padding: 12px 20px !important;
+    border: none !important;
+    background: transparent !important;
+    border-radius: 6px !important;
+    cursor: pointer !important;
+    font-weight: 600 !important;
+    transition: all 0.2s !important;
+    color: #6b7280 !important;
+    font-size: 0.9em !important;
+    white-space: nowrap !important;
+    overflow: visible !important;
+    text-align: center !important;
+}
+
+.nav-tab:hover {
+    background: rgba(255,255,255,0.5) !important;
+    color: #374151 !important;
+}
+
+.nav-tab.active {
+    background: white !important;
+    color: #4facfe !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+    font-weight: 600 !important;
+    border-bottom: none !important;
+}
+
+/* Mobile responsive for tabs */
+@media (max-width: 768px) {
+    .nav-tabs {
+        margin: 0 15px 15px 15px !important;
+        padding: 3px !important;
+    }
+    
+    .nav-tab {
+        padding: 10px 16px !important;
+        font-size: 0.85em !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-tabs {
+        margin: 0 10px 10px 10px !important;
+    }
+    
+    .nav-tab {
+        padding: 8px 12px !important;
+        font-size: 0.8em !important;
+    }
+}
+
+/* Ensure header content doesn't get covered */
+.header {
+    position: relative !important;
+    z-index: 10 !important;
+}
+
+.header-content {
+    position: relative !important;
+    z-index: 11 !important;
+}
+
+/* Fix any container overflow issues */
+.container {
+    overflow: visible !important;
+}
+
+/* Mobile specific fixes */
+@media (max-width: 768px) {
+    .nav-tab {
+        padding: 10px 12px !important;
+        font-size: 0.85em !important;
+    }
+    
+    .delete-btn {
+        min-width: 32px !important;
+        height: 32px !important;
+        padding: 0 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        border-radius: 4px !important;
+    }
+}
+/* Final polish fixes */
+
+/* Add space between header and tabs */
+.nav-tabs {
+    display: flex !important;
+    background: #f1f5f9 !important;
+    border-radius: 8px !important;
+    padding: 4px !important;
+    margin: 20px 20px 20px 20px !important; /* Increased top margin */
+    gap: 4px !important;
+}
+
+/* Keep share button compact on mobile */
+.share-btn {
+    background: #10b981 !important;
+    padding: 10px 16px !important;
+    font-size: 0.9em !important;
+    white-space: nowrap !important;
+    width: auto !important; /* Don't stretch full width */
+}
+
+/* Mobile specific fixes */
+@media (max-width: 768px) {
+    .nav-tabs {
+        margin: 16px 15px 15px 15px !important; /* More space on mobile too */
+        padding: 3px !important;
+    }
+    
+    .share-btn {
+        padding: 8px 12px !important;
+        font-size: 0.85em !important;
+        width: auto !important; /* Keep compact on mobile */
+        max-width: 120px !important; /* Limit width */
+    }
+    
+    /* Fix checklist header layout on mobile */
+    .checklist-header {
+        flex-direction: row !important; /* Keep horizontal on mobile */
+        gap: 12px !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+    }
+    
+    .checklist-header h3 {
+        text-align: left !important; /* Left align title */
+        margin: 0 !important;
+        flex: 1 !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-tabs {
+        margin: 12px 10px 10px 10px !important;
+    }
+    
+    .share-btn {
+        padding: 6px 10px !important;
+        font-size: 0.8em !important;
+        max-width: 100px !important;
     }
 }
