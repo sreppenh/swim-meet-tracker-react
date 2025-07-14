@@ -36,21 +36,20 @@ export default function SwimMeetTracker() {
   return (
     <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', padding: '20px' }}>
       <div className="container">
-        {/* Header */}
+        {/* Simplified Header */}
         <div className="header">
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <div>
+          <div className="header-content">
+            <div className="meet-info">
               <h1>🏊‍♀️ {currentMeet.name}</h1>
               <div className="subtitle">
                 {currentMeet.poolType && `${currentMeet.poolType} • `}
                 {currentMeet.date && new Date(currentMeet.date).toLocaleDateString()}
               </div>
             </div>
-            <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+            <div className="header-actions">
               <button
                 onClick={() => setShowSettings(true)}
-                className="btn"
-                style={{ background: 'rgba(255,255,255,0.2)', padding: '8px 12px' }}
+                className="header-btn settings-btn"
                 title="Swimmer Settings"
               >
                 <Settings style={{ width: '16px', height: '16px' }} />
@@ -61,27 +60,27 @@ export default function SwimMeetTracker() {
                     clearMeet();
                   }
                 }}
-                className="change-meet-btn"
+                className="header-btn clear-meet-btn"
               >
-                New Meet
+                Clear Meet
               </button>
             </div>
           </div>
         </div>
 
-        {/* Navigation Tabs */}
-        <div className="view-toggle">
+        {/* Cleaner Navigation Tabs */}
+        <div className="nav-tabs">
           <button
-            className={currentView === 'manage' ? 'active' : ''}
+            className={`nav-tab ${currentView === 'manage' ? 'active' : ''}`}
             onClick={() => setCurrentView('manage')}
           >
-            ⚙️ Manage Events
+            Manage Events
           </button>
           <button
-            className={currentView === 'checklist' ? 'active' : ''}
+            className={`nav-tab ${currentView === 'checklist' ? 'active' : ''}`}
             onClick={() => setCurrentView('checklist')}
           >
-            📋 Event Checklist
+            Event Checklist
           </button>
         </div>
 
