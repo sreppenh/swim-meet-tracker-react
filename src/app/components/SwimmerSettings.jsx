@@ -25,7 +25,7 @@ const SWIMMER_COLORS = [
   { name: 'Orange/Yellow', class: 'swimmer-color-9' }
 ];
 
-// Color/Icon Picker Modal
+// Color/Icon Picker Modal - still a modal for this specific interaction
 const ColorIconPicker = ({ swimmer, onUpdate, onCancel }) => {
   const [selectedColor, setSelectedColor] = useState(swimmer.colorIndex);
   const [selectedIcon, setSelectedIcon] = useState(swimmer.icon);
@@ -58,14 +58,21 @@ const ColorIconPicker = ({ swimmer, onUpdate, onCancel }) => {
           </button>
         </div>
 
-        {/* Preview - Just show swimmer customization */}
+        {/* Preview */}
         <div style={{ marginBottom: '24px', padding: '16px', background: '#f9fafb', borderRadius: '8px' }}>
           <p style={{ fontSize: '14px', marginBottom: '8px', color: '#6b7280' }}>Preview:</p>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <div className={`compact-event-number swimmer-color-${selectedColor}`}>15</div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: '600' }}>
-              <span style={{ fontSize: '18px' }}>{selectedIcon}</span>
-              <span>{swimmer.name}</span>
+          <div className="standard-list-item" style={{ margin: 0, border: '1px solid #e5e7eb', borderRadius: '6px' }}>
+            <div className={`compact-event-number swimmer-color-${selectedColor}`} style={{ minWidth: '45px', padding: '6px 10px' }}>15</div>
+            <div style={{ flex: 1 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: '600' }}>
+                <span style={{ fontSize: '18px' }}>{selectedIcon}</span>
+                <span>{swimmer.name}</span>
+              </div>
+              <div style={{ fontSize: '14px', color: '#6b7280' }}>100 Freestyle • Seed: 1:23.45</div>
+            </div>
+            <div style={{ display: 'flex', gap: '6px' }}>
+              <span style={{ background: '#e5e7eb', padding: '2px 6px', borderRadius: '3px', fontSize: '0.8em' }}>H4</span>
+              <span style={{ background: '#e5e7eb', padding: '2px 6px', borderRadius: '3px', fontSize: '0.8em' }}>L3</span>
             </div>
           </div>
         </div>
@@ -111,22 +118,10 @@ const ColorIconPicker = ({ swimmer, onUpdate, onCancel }) => {
         </div>
 
         <div style={{ display: 'flex', gap: '12px' }}>
-          <button
-            onClick={onCancel}
-            style={{
-              flex: 1, padding: '12px', border: '1px solid #e5e7eb', borderRadius: '6px',
-              background: 'white', cursor: 'pointer', color: '#6b7280'
-            }}
-          >
+          <button onClick={onCancel} className="btn-secondary">
             Cancel
           </button>
-          <button
-            onClick={handleSave}
-            style={{
-              flex: 1, padding: '12px', border: 'none', borderRadius: '6px',
-              background: '#4facfe', color: 'white', cursor: 'pointer'
-            }}
-          >
+          <button onClick={handleSave} className="btn-primary">
             Save Changes
           </button>
         </div>
@@ -135,7 +130,7 @@ const ColorIconPicker = ({ swimmer, onUpdate, onCancel }) => {
   );
 };
 
-export default function SwimmerSettings({ onClose }) {
+export default function SwimmerSettings() {
   const { swimmers, updateSwimmer, deleteSwimmer } = useSwimmers();
   const { events, deleteEventsBySwimmer } = useEvents();
   const [editingSwimmer, setEditingSwimmer] = useState(null);
@@ -156,72 +151,53 @@ export default function SwimmerSettings({ onClose }) {
   };
 
   return (
-    <div style={{
-      position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
-      background: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', 
-      justifyContent: 'center', padding: '20px', zIndex: 3000
-    }}>
-      <div style={{
-        background: 'white', borderRadius: '12px', padding: '24px',
-        maxWidth: '600px', width: '100%', maxHeight: '80vh', overflowY: 'auto'
-      }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
-          <h2 style={{ margin: 0, color: '#374151' }}>Swimmer Settings</h2>
-          <button 
-            onClick={onClose}
-            style={{ background: 'none', border: 'none', fontSize: '24px', cursor: 'pointer', color: '#6b7280' }}
-          >
-            ×
-          </button>
+    <div>
+      <div className="standard-list">
+        <div className="standard-list-header">
+          <h3 style={{ color: '#374151' }}>Swimmers</h3>
+          <span className="events-count">{swimmers.length} swimmer{swimmers.length !== 1 ? 's' : ''}</span>
         </div>
-
+        
         {swimmers.length === 0 ? (
-          <div style={{ textAlign: 'center', padding: '40px', color: '#6b7280' }}>
-            <div style={{ fontSize: '48px', marginBottom: '16px' }}>🏊‍♀️</div>
+          <div className="empty-state">
+            <div className="empty-icon">🏊‍♀️</div>
             <h4>No swimmers yet</h4>
             <p>Swimmers will appear here after you add events for them.</p>
           </div>
         ) : (
           <div>
             {swimmers.map(swimmer => (
-              <div 
-                key={swimmer.id} 
-                className="swimmer-settings-item"
-              >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                  <div className={`swimmer-color-${swimmer.colorIndex}`} style={{ width: '24px', height: '24px', borderRadius: '4px' }}></div>
-                  <span style={{ fontSize: '20px' }}>{swimmer.icon}</span>
-                  <span style={{ fontWeight: '600', color: '#374151' }}>{swimmer.name}</span>
+              <div key={swimmer.id} className="standard-list-item">
+                <div className={`compact-event-number swimmer-color-${swimmer.colorIndex}`} style={{ minWidth: '45px', padding: '6px 10px' }}>
+                  {swimmer.icon}
+                </div>
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontWeight: '600', color: '#374151', marginBottom: '4px' }}>
+                    {swimmer.name}
+                  </div>
+                  <div style={{ fontSize: '0.85em', color: '#6b7280' }}>
+                    {events.filter(e => e.swimmerId === swimmer.id).length} event{events.filter(e => e.swimmerId === swimmer.id).length !== 1 ? 's' : ''}
+                  </div>
                 </div>
                 <div style={{ display: 'flex', gap: '8px' }}>
                   <button
                     onClick={() => setEditingSwimmer(swimmer)}
-                    className="swimmer-change-btn"
+                    className="btn-secondary"
                   >
                     <Palette style={{ width: '16px', height: '16px' }} />
                     Change
                   </button>
                   <button
                     onClick={() => handleDeleteSwimmer(swimmer)}
-                    className="swimmer-remove-btn"
+                    className="btn-danger"
                   >
                     <Trash2 style={{ width: '16px', height: '16px' }} />
-                    Remove
                   </button>
                 </div>
               </div>
             ))}
           </div>
         )}
-
-        <div style={{ marginTop: '24px', textAlign: 'center' }}>
-          <button
-            onClick={onClose}
-            className="btn"
-          >
-            Done
-          </button>
-        </div>
       </div>
 
       {/* Edit Modal */}

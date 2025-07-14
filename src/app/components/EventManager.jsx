@@ -258,14 +258,14 @@ export default function EventManager() {
             </div>
           )}
           <div className="form-group">
-            <button className="btn add-event-btn" onClick={handleAddEvent}>Add Event</button>
+            <button className="btn-primary" onClick={handleAddEvent}>Add Event</button>
           </div>
         </div>
       </div>
 
       {/* Events List */}
-      <div className="events-list">
-        <div className="events-header">
+      <div className="standards-list">
+        <div className="standard-list-header">
           <h3 style={{ color: '#374151' }}>All Events</h3>
           <span className="events-count">{sortedEvents.length} event{sortedEvents.length !== 1 ? 's' : ''}</span>
         </div>
@@ -282,7 +282,7 @@ export default function EventManager() {
               if (!swimmer) return null;
 
               return (
-                <div key={event.id} className={`compact-event-item ${event.completed ? 'completed' : ''}`}>
+                <div key={event.id} className={`standard-list-item ${event.completed ? 'completed' : ''}`}>
                   <div className={`compact-event-number swimmer-color-${swimmer.colorIndex}`}>
                     {event.eventNumber}
                   </div>
@@ -304,7 +304,7 @@ export default function EventManager() {
                     <span className="compact-lane">L{event.lane}</span>
                   </div>
                   <button 
-                    className="btn-danger delete-btn" 
+                    className="btn-danger" 
                     onClick={() => {
                       if (confirm('Are you sure you want to delete this event?')) {
                         deleteEvent(event.id);
