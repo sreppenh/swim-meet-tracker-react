@@ -16,7 +16,15 @@ export default function MeetSetup({ onCreateMeet }) {
     onCreateMeet({
       name: meetName.trim(),
       poolType: poolType || undefined,
-      date: meetDate ? new Date(meetDate) : undefined,
+      // date: meetDate ? new Date(meetDate) : undefined,
+      //New Date Function Below
+      date: meetDate
+        ? (() => {
+          const [year, month, day] = meetDate.split('-').map(Number);
+          return new Date(year, month - 1, day); // Local time, no shift
+        })()
+        : undefined,
+      // New Date Function Above
     });
   };
 
@@ -26,23 +34,23 @@ export default function MeetSetup({ onCreateMeet }) {
         <div className="splash-title">🏊‍♀️</div>
         <h1 className="splash-title">Swim Meet Tracker</h1>
         <p className="splash-subtitle">Track swimmers' events, heats, and lanes</p>
-        
+
         <div className="meet-setup-form">
           <div className="form-group">
             <label htmlFor="meetName">Meet Name</label>
-            <input 
-              type="text" 
-              id="meetName" 
+            <input
+              type="text"
+              id="meetName"
               value={meetName}
               onChange={(e) => setMeetName(e.target.value)}
-              placeholder="e.g., Winter Championship, League Finals" 
+              placeholder="e.g., Winter Championship, League Finals"
               onKeyDown={(e) => e.key === 'Enter' && handleSubmit()}
             />
           </div>
-          
+
           <div className="form-group">
             <label htmlFor="poolType">Pool Type (optional)</label>
-            <select 
+            <select
               id="poolType"
               value={poolType}
               onChange={(e) => setPoolType(e.target.value)}
@@ -53,17 +61,17 @@ export default function MeetSetup({ onCreateMeet }) {
               <option value="LCM">Long Course Meters (LCM)</option>
             </select>
           </div>
-          
+
           <div className="form-group">
             <label htmlFor="meetDate">Meet Date (optional)</label>
-            <input 
-              type="date" 
+            <input
+              type="date"
               id="meetDate"
               value={meetDate}
               onChange={(e) => setMeetDate(e.target.value)}
             />
           </div>
-          
+
           <button onClick={handleSubmit} className="start-meet-btn">
             Start Tracking Events 🚀
           </button>
