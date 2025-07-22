@@ -6,9 +6,9 @@ import { useSwimmers } from '../hooks/useSwimmers';
 import { useEvents } from '../hooks/useEvents';
 
 const SWIMMER_ICONS = [
-  '🐬', '🦈', '🐊', '🐙', '🐠', '🐟', 
-  '🦭','🐳', '🦑', '🌊', '⭐', '🚀', 
-  '🔥', '💎', '🎯', '🏆', '🎪', '🎨', 
+  '🐬', '🦈', '🐊', '🐙', '🐠', '🐟',
+  '🦭', '🐳', '🦑', '🌊', '⭐', '🚀',
+  '🔥', '💎', '🎯', '🏆', '🎪', '🎨',
   '🎭', '🎸', '🦄', '🌟', '💫', '🎈'
 ];
 
@@ -41,7 +41,7 @@ const ColorIconPicker = ({ swimmer, onUpdate, onCancel }) => {
   return (
     <div style={{
       position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
-      background: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', 
+      background: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center',
       justifyContent: 'center', padding: '20px', zIndex: 3001
     }}>
       <div style={{
@@ -50,7 +50,7 @@ const ColorIconPicker = ({ swimmer, onUpdate, onCancel }) => {
       }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
           <h3 style={{ margin: 0, color: '#374151' }}>Customize {swimmer.name}</h3>
-          <button 
+          <button
             onClick={onCancel}
             style={{ background: 'none', border: 'none', fontSize: '24px', cursor: 'pointer', color: '#6b7280' }}
           >
@@ -61,31 +61,31 @@ const ColorIconPicker = ({ swimmer, onUpdate, onCancel }) => {
         {/* Preview */}
         <div style={{ marginBottom: '24px', padding: '16px', background: '#f9fafb', borderRadius: '8px' }}>
           <p style={{ fontSize: '14px', marginBottom: '8px', color: '#6b7280' }}>Preview:</p>
-         <div style={{ 
-  display: 'flex', 
-  alignItems: 'center', 
-  gap: '12px',
-  minWidth: '100px'
-}}>
-  <div 
-    className={`swimmer-color-${swimmer.colorIndex}`} 
-    style={{ 
-      width: '32px', 
-      height: '32px', 
-      borderRadius: '6px',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      fontSize: '0px'
-    }}
-  />
-  <div style={{ 
-    fontSize: '20px',
-    minWidth: '24px'
-  }}>
-    {swimmer.icon}
-  </div>
-</div>
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '12px',
+            minWidth: '100px'
+          }}>
+            <div
+              className={`swimmer-color-${swimmer.colorIndex}`}
+              style={{
+                width: '32px',
+                height: '32px',
+                borderRadius: '6px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '0px'
+              }}
+            />
+            <div style={{
+              fontSize: '20px',
+              minWidth: '24px'
+            }}>
+              {swimmer.icon}
+            </div>
+          </div>
         </div>
 
         {/* Color Selection */}
@@ -128,36 +128,36 @@ const ColorIconPicker = ({ swimmer, onUpdate, onCancel }) => {
           </div>
         </div>
 
-<div style={{ display: 'flex', gap: '12px' }}>
-  <button 
-    
-  onClick={onCancel} 
-  style={{ 
-    flex: 1, 
-    padding: '12px 20px',
-    height: '44px',
-    border: '1px solid #e5e7eb',
-    background: 'white',
-    borderRadius: '6px',
-    cursor: 'pointer',
-    fontWeight: '600'
-  }}
->
-  Cancel
-</button>
-  <button 
-    onClick={handleSave} 
-    className="btn-primary"
-    style={{ 
-      flex: 1, 
-      padding: '12px 20px !important',
-      height: '44px !important',
-      minHeight: '44px !important'
-    }}
-  >
-    Save Changes
-  </button>
-</div>
+        <div style={{ display: 'flex', gap: '12px' }}>
+          <button
+
+            onClick={onCancel}
+            style={{
+              flex: 1,
+              padding: '12px 20px',
+              height: '44px',
+              border: '1px solid #e5e7eb',
+              background: 'white',
+              borderRadius: '6px',
+              cursor: 'pointer',
+              fontWeight: '600'
+            }}
+          >
+            Cancel
+          </button>
+          <button
+            onClick={handleSave}
+            className="btn-primary"
+            style={{
+              flex: 1,
+              padding: '12px 20px !important',
+              height: '44px !important',
+              minHeight: '44px !important'
+            }}
+          >
+            Save Changes
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -171,12 +171,12 @@ export default function SwimmerSettings() {
   const handleDeleteSwimmer = (swimmer) => {
     const swimmerEvents = events.filter(e => e.swimmerId === swimmer.id);
     const eventCount = swimmerEvents.length;
-    
+
     let message = `Are you sure you want to remove ${swimmer.name}?`;
     if (eventCount > 0) {
       message += ` This will also delete ${eventCount} event${eventCount !== 1 ? 's' : ''}.`;
     }
-    
+
     if (confirm(message)) {
       deleteEventsBySwimmer(swimmer.id);
       deleteSwimmer(swimmer.id);
@@ -190,7 +190,7 @@ export default function SwimmerSettings() {
           <h3 style={{ color: '#374151' }}>Swimmers</h3>
           <span className="events-count">{swimmers.length} swimmer{swimmers.length !== 1 ? 's' : ''}</span>
         </div>
-        
+
         {swimmers.length === 0 ? (
           <div className="empty-state">
             <div className="empty-icon">🏊‍♀️</div>
@@ -201,30 +201,30 @@ export default function SwimmerSettings() {
           <div>
             {swimmers.map(swimmer => (
               <div key={swimmer.id} className="standard-list-item">
-                <div style={{ 
-  display: 'flex', 
-  alignItems: 'center', 
-  gap: '8px'
-}}>
-  <div 
-    className={`swimmer-color-${swimmer.colorIndex}`} 
-    style={{ 
-      width: '24px', 
-      height: '24px', 
-      borderRadius: '4px'
-    }}
-  />
-  <div style={{ 
-    fontSize: '24px'
-  }}>
-    {swimmer.icon}
-  </div>
-</div>
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px'
+                }}>
+                  <div
+                    className={`swimmer-color-${swimmer.colorIndex}`}
+                    style={{
+                      width: '24px',
+                      height: '24px',
+                      borderRadius: '4px'
+                    }}
+                  />
+                  <div style={{
+                    fontSize: '24px'
+                  }}>
+                    {swimmer.icon}
+                  </div>
+                </div>
                 <div style={{ flex: 1 }}>
-  <div style={{ fontWeight: '600', color: '#374151' }}>
-    {swimmer.name}
-  </div>
-</div>
+                  <div style={{ fontWeight: '600', color: '#374151' }}>
+                    {swimmer.name}
+                  </div>
+                </div>
                 <div style={{ display: 'flex', gap: '8px' }}>
 
 
@@ -235,37 +235,37 @@ export default function SwimmerSettings() {
 
 
 
-<button
-  onClick={() => setEditingSwimmer(swimmer)}
-  className="btn-secondary"
-  style={{ 
-    padding: '4px 8px', 
-    fontSize: '12px',
-    height: '28px',
-    minHeight: '28px'
-  }}
->
-  🎨 Edit
-</button>
+                  <button
+                    onClick={() => setEditingSwimmer(swimmer)}
+                    className="btn-secondary"
+                    style={{
+                      padding: '4px 8px',
+                      fontSize: '12px',
+                      height: '28px',
+                      minHeight: '28px'
+                    }}
+                  >
+                    🎨 Edit
+                  </button>
 
 
-                 <button 
-  className="btn-danger" 
-  onClick={() => {
-    if (confirm('Are you sure you want to delete this swimmer?')) {
-      deleteEvent(event.id);
-    }
-  }}
-  title="Delete event"
-  style={{
-    padding: '4px 6px',
-    fontSize: '12px',
-    minWidth: '28px',
-    minHeight: '28px'
-  }}
->
-  ×
-</button>
+                  <button
+                    className="btn-danger"
+                    onClick={() => {
+                      if (confirm('Are you sure you want to delete this swimmer?')) {
+                        deleteEvent(event.id);
+                      }
+                    }}
+                    title="Delete event"
+                    style={{
+                      padding: '4px 6px',
+                      fontSize: '12px',
+                      minWidth: '28px',
+                      minHeight: '28px'
+                    }}
+                  >
+                    ×
+                  </button>
                 </div>
               </div>
             ))}
@@ -278,9 +278,9 @@ export default function SwimmerSettings() {
         <ColorIconPicker
           swimmer={editingSwimmer}
           onUpdate={(updatedSwimmer) => {
-            updateSwimmer(editingSwimmer.id, { 
-              colorIndex: updatedSwimmer.colorIndex, 
-              icon: updatedSwimmer.icon 
+            updateSwimmer(editingSwimmer.id, {
+              colorIndex: updatedSwimmer.colorIndex,
+              icon: updatedSwimmer.icon
             });
             setEditingSwimmer(null);
           }}

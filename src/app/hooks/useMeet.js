@@ -27,13 +27,13 @@ export function useMeet() {
       createdAt: new Date(),
     };
     setCurrentMeet(newMeet);
-    
+
     try {
       localStorage.setItem('currentMeet', JSON.stringify(newMeet));
     } catch (error) {
       console.log('Could not save meet data:', error);
     }
-    
+
     return newMeet;
   };
 
@@ -41,7 +41,7 @@ export function useMeet() {
     setCurrentMeet(null);
     try {
       localStorage.removeItem('currentMeet');
-      localStorage.removeItem('swimmers');
+      //localStorage.removeItem('swimmers');
       localStorage.removeItem('events');
     } catch (error) {
       console.log('Could not clear data:', error);
