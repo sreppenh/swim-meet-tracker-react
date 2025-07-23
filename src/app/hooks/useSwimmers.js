@@ -37,7 +37,7 @@ export function useSwimmers() {
   };
 
   const updateSwimmer = (id, updates) => {
-    const updatedSwimmers = swimmers.map(swimmer => 
+    const updatedSwimmers = swimmers.map(swimmer =>
       swimmer.id === id ? { ...swimmer, ...updates } : swimmer
     );
     saveSwimmers(updatedSwimmers);
@@ -62,6 +62,14 @@ export function useSwimmers() {
     return 0; // Default to first color if all are used
   };
 
+  const getSwimmerPR = (swimmerName, eventName, courseType = 'SCY') => {
+    const swimmer = getSwimmerByName(swimmerName.trim ? swimmerName.trim() : swimmerName);
+    if (!swimmer || !swimmer.prs || !eventName) return null;
+
+    const coursePRs = swimmer.prs[courseType];
+    return coursePRs?.[eventName] || null;
+  };
+
   return {
     swimmers,
     addSwimmer,
@@ -69,5 +77,6 @@ export function useSwimmers() {
     deleteSwimmer,
     getSwimmerByName,
     getAvailableColorIndex,
+    getSwimmerPR,
   };
 }

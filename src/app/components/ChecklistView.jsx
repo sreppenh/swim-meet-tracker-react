@@ -35,7 +35,8 @@ export default function ChecklistView() {
       if (!swimmer) return;
 
       const relayInfo = event.relayPosition ? ` (Position ${event.relayPosition})` : '';
-      const seedInfo = event.seedTime ? ` - Seed: ${event.seedTime}` : '';
+      const timeLabel = event.seedTimeSource === 'pr' ? 'PR' : 'Seed';
+      const seedInfo = event.seedTime ? ` - ${timeLabel}: ${event.seedTime}` : '';
 
       shareText += `${swimmer.icon} Event ${event.eventNumber}: ${swimmer.name}\n`;
       shareText += `   ${abbreviateEventName(event.eventName) || 'Event ' + event.eventNumber}${relayInfo}\n`;
@@ -165,7 +166,9 @@ export default function ChecklistView() {
                       {abbreviateEventName(event.eventName) || `Event ${event.eventNumber}`}
                     </span>
                     {event.seedTime && (
-                      <span style={{ flexShrink: 0 }}>Seed: {event.seedTime}</span>
+                      <span style={{ flexShrink: 0 }}>
+                        {event.seedTimeSource === 'pr' ? 'PR' : 'Seed'}: {event.seedTime}
+                      </span>
                     )}
                   </div>
                 </div>
