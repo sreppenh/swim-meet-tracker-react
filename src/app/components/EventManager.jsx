@@ -13,7 +13,7 @@ import {
 } from '../../lib/swimming';
 
 export default function EventManager() {
-  const { swimmers, addSwimmer, getSwimmerByName, getAvailableColorIndex } = useSwimmers();
+  const { swimmers, addSwimmer, getSwimmerByName, getAvailableColorIndex, getSwimmerPR } = useSwimmers();
   const { events, addEvent, deleteEvent, getSortedEvents } = useEvents();
   const { currentMeet } = useMeet();
 
@@ -56,7 +56,8 @@ export default function EventManager() {
       heat: parseInt(heat),
       lane: parseInt(lane),
       eventName: eventName || undefined,
-      seedTime: seedTime || undefined,
+      seedTime: getSwimmerPR(swimmerName.trim(), eventName, currentMeet?.poolType || 'SCY') || seedTime || undefined,
+      seedTimeSource: getSwimmerPR(swimmerName.trim(), eventName, currentMeet?.poolType || 'SCY') ? 'pr' : (seedTime ? 'manual' : undefined),
       relayPosition: relayPosition || undefined,
       completed: false,
     };
@@ -168,15 +169,42 @@ export default function EventManager() {
             </select>
           </div>
           <div className="form-group">
-            <label htmlFor="seedTime">Seed Time (optional)</label>
-            <input
-              type="text"
-              id="seedTime"
-              value={seedTime}
-              onChange={handleSeedTimeChange}
-              placeholder="e.g., 1:23.45"
-              className="form-input"
-            />
+            {(() => {
+              const pr = getSwimmerPR(swimmerName, eventName, currentMeet?.poolType || 'SCY');
+              if (pr) {
+                return (
+                  <>
+                    <label htmlFor="prDisplay">Personal Record</label>
+                    <div
+                      id="prDisplay"
+                      className="form-input"
+                      style={{
+                        background: '#f0f9ff',
+                        border: '2px solid #0ea5e9',
+                        color: '#0369a1',
+                        fontWeight: '600'
+                      }}
+                    >
+                      {pr}
+                    </div>
+                  </>
+                );
+              } else {
+                return (
+                  <>
+                    <label htmlFor="seedTime">Seed Time (optional)</label>
+                    <input
+                      type="text"
+                      id="seedTime"
+                      value={seedTime}
+                      onChange={handleSeedTimeChange}
+                      placeholder="e.g., 1:23.45"
+                      className="form-input"
+                    />
+                  </>
+                );
+              }
+            })()}
           </div>
           {isRelay && (
             <div className="form-group">
@@ -233,7 +261,9 @@ export default function EventManager() {
                         {abbreviateEventName(event.eventName) || 'Event ' + event.eventNumber}
                       </span>
                       {event.seedTime && (
-                        <span style={{ flexShrink: 0 }}>Seed: {event.seedTime}</span>
+                        <span style={{ flexShrink: 0 }}>
+                          {event.seedTimeSource === 'pr' ? 'PR' : 'Seed'}: {event.seedTime}
+                        </span>
                       )}
                     </div>
                   </div>
