@@ -93,16 +93,17 @@ export function useTheme() {
         }
     }, []);
 
-    // Save theme to localStorage
     const saveTheme = (newTheme) => {
+        console.log('saveTheme: About to set theme to:', newTheme);
         setTheme(newTheme);
+        console.log('saveTheme: setTheme called, current theme should now be:', newTheme);
         try {
             localStorage.setItem('appTheme', JSON.stringify(newTheme));
+            console.log('saveTheme: localStorage updated successfully');
         } catch (error) {
             console.log('Could not save theme:', error);
         }
     };
-
     // Apply a preset theme
     const applyPreset = (preset) => {
         const newTheme = {

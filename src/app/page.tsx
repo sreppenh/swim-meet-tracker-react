@@ -5,17 +5,17 @@ import MeetSetup from './components/MeetSetup';
 import EventManager from './components/EventManager';
 import ChecklistView from './components/ChecklistView';
 import SwimmerSettings from './components/SwimmerSettings';
-import { useTheme } from './hooks/useTheme';
 import { useMeet } from './hooks/useMeet';
+import { ThemeProvider, useTheme } from './contexts/ThemeContext';
 
 
-
-export default function SwimMeetTracker() {
+function SwimMeetTrackerContent() {
   const [isClient, setIsClient] = useState(false);
   const [currentView, setCurrentView] = useState('manage');
   const { currentMeet, createMeet, clearMeet } = useMeet();
 
   const { theme } = useTheme();
+  console.log('Page.tsx - Current theme from hook:', theme); // ADD THIS LINE
 
   // ADD THIS - CSS custom properties for the theme
   const cssVariables = {
@@ -27,6 +27,7 @@ export default function SwimMeetTracker() {
   // ADD THIS: Update CSS variables on the document root when theme changes
   useEffect(() => {
     const root = document.documentElement;
+    console.log('useEffect triggered! Theme changed to:', theme);
     root.style.setProperty('--theme-primary', theme.primary);
     root.style.setProperty('--theme-secondary', theme.secondary);
     root.style.setProperty('--theme-background', theme.background);
@@ -35,6 +36,7 @@ export default function SwimMeetTracker() {
   useEffect(() => {
     setIsClient(true);
   }, []);
+
 
   if (!isClient) {
     return (
@@ -135,5 +137,13 @@ export default function SwimMeetTracker() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function SwimMeetTracker() {
+  return (
+    <ThemeProvider>
+      <SwimMeetTrackerContent />
+    </ThemeProvider>
   );
 }
