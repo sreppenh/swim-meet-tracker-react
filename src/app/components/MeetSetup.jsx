@@ -1,11 +1,15 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useTheme } from '../contexts/ThemeContext';
 
 export default function MeetSetup({ onCreateMeet }) {
   const [meetName, setMeetName] = useState('');
   const [poolType, setPoolType] = useState('');
   const [meetDate, setMeetDate] = useState('');
+
+  // Add theme support
+  const { theme } = useTheme();
 
   const handleSubmit = () => {
     if (!meetName.trim()) {
@@ -16,20 +20,27 @@ export default function MeetSetup({ onCreateMeet }) {
     onCreateMeet({
       name: meetName.trim(),
       poolType: poolType || undefined,
-      // date: meetDate ? new Date(meetDate) : undefined,
-      //New Date Function Below
       date: meetDate
         ? (() => {
           const [year, month, day] = meetDate.split('-').map(Number);
-          return new Date(year, month - 1, day); // Local time, no shift
+          return new Date(year, month - 1, day);
         })()
         : undefined,
-      // New Date Function Above
     });
   };
 
   return (
-    <div className="splash-screen">
+    <div
+      className="splash-screen"
+      style={{
+        minHeight: '100vh',
+        background: `linear-gradient(135deg, ${theme.background} 0%, ${theme.primary} 100%)`,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '20px'
+      }}
+    >
       <div className="splash-content">
         <div className="splash-title">🏊‍♀️</div>
         <h1 className="splash-title">Swim Meet Tracker</h1>
@@ -72,7 +83,22 @@ export default function MeetSetup({ onCreateMeet }) {
             />
           </div>
 
-          <button onClick={handleSubmit} className="start-meet-btn">
+          <button
+            onClick={handleSubmit}
+            className="start-meet-btn"
+            style={{
+              background: `linear-gradient(135deg, ${theme.primary} 0%, ${theme.secondary} 100%)`,
+              border: 'none',
+              color: 'white',
+              padding: '16px 32px',
+              borderRadius: '8px',
+              fontSize: '1.1em',
+              fontWeight: '600',
+              cursor: 'pointer',
+              transition: 'all 0.3s ease',
+              boxShadow: `0 4px 12px ${theme.primary}40`
+            }}
+          >
             Start Tracking Events 🚀
           </button>
         </div>
