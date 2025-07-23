@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { useSwimmers } from '../hooks/useSwimmers';
 import { useEvents } from '../hooks/useEvents';
+import { useMeet } from '../hooks/useMeet';
 
 const SWIM_EVENTS_BY_COURSE = {
   'SCY': [
@@ -41,12 +42,7 @@ const ALL_SWIM_EVENTS = [
   { group: 'Relays', events: ['100 Freestyle Relay', '200 Freestyle Relay', '400 Freestyle Relay', '800 Freestyle Relay', '100 Medley Relay', '200 Medley Relay', '400 Medley Relay'] }
 ];
 
-const getAvailableEvents = () => {
-  if (currentMeet?.poolType && SWIM_EVENTS_BY_COURSE[currentMeet.poolType]) {
-    return SWIM_EVENTS_BY_COURSE[currentMeet.poolType];
-  }
-  return ALL_SWIM_EVENTS;
-};
+
 
 function abbreviateEventName(eventName) {
   if (!eventName) return eventName;
@@ -119,6 +115,7 @@ function formatSeedTime(input) {
 export default function EventManager() {
   const { swimmers, addSwimmer, getSwimmerByName, getAvailableColorIndex } = useSwimmers();
   const { events, addEvent, deleteEvent, getSortedEvents } = useEvents();
+  const { currentMeet } = useMeet();
 
   const [swimmerName, setSwimmerName] = useState('');
   const [eventNumber, setEventNumber] = useState('');
@@ -130,6 +127,13 @@ export default function EventManager() {
 
   const isRelay = eventName.toLowerCase().includes('relay');
   const sortedEvents = getSortedEvents();
+
+  const getAvailableEvents = () => {
+    if (currentMeet?.poolType && SWIM_EVENTS_BY_COURSE[currentMeet.poolType]) {
+      return SWIM_EVENTS_BY_COURSE[currentMeet.poolType];
+    }
+    return ALL_SWIM_EVENTS;
+  };
 
   const handleAddEvent = () => {
     if (!swimmerName.trim() || !eventNumber || !heat || !lane) {
@@ -204,6 +208,8 @@ export default function EventManager() {
             <label htmlFor="eventNumber">Event #</label>
             <input
               type="number"
+              inputMode="numeric"
+              pattern="[0-9]*"
               id="eventNumber"
               value={eventNumber}
               onChange={(e) => setEventNumber(e.target.value)}
@@ -216,6 +222,8 @@ export default function EventManager() {
             <label htmlFor="heat">Heat</label>
             <input
               type="number"
+              inputMode="numeric"
+              pattern="[0-9]*"
               id="heat"
               value={heat}
               onChange={(e) => setHeat(e.target.value)}
@@ -228,6 +236,8 @@ export default function EventManager() {
             <label htmlFor="lane">Lane</label>
             <input
               type="number"
+              inputMode="numeric"
+              pattern="[0-9]*"
               id="lane"
               value={lane}
               onChange={(e) => setLane(e.target.value)}
@@ -259,7 +269,7 @@ export default function EventManager() {
                 </optgroup>
               ))} */}
 
-              {getAvailableEvents(currentMeet).map(group => (
+              {getAvailableEvents().map(group => (
                 <optgroup key={group.group} label={group.group}>
                   {group.events.map(event => (
                     <option key={event} value={event}>{event}</option>

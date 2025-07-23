@@ -195,6 +195,17 @@ export default function ThemePicker() {
         background: theme.background
     });
 
+    // Add this useEffect to initialize the selected color name
+    React.useEffect(() => {
+        // Find which preset matches the current theme
+        const matchingPreset = presets.find(preset => preset.primary === theme.primary);
+        if (matchingPreset) {
+            setSelectedColorName(matchingPreset.name);
+        } else {
+            setSelectedColorName('Custom Colors');
+        }
+    }, [theme, presets]);
+
     // Add custom as the 12th option
     const colorOptions = [
         ...presets,
@@ -232,12 +243,13 @@ export default function ThemePicker() {
     const isSelected = (option) => {
         if (option.isCustom) {
             // Custom is selected if current theme matches our custom colors exactly
-            return theme.primary === customColors.primary &&
+            return selectedColorName === 'Custom Colors' &&
+                theme.primary === customColors.primary &&
                 theme.secondary === customColors.secondary &&
                 theme.background === customColors.background;
         } else {
             // Preset is selected if current theme matches
-            return theme.primary === option.primary;
+            return selectedColorName === option.name && theme.primary === option.primary;
         }
     };
 
@@ -278,14 +290,17 @@ export default function ThemePicker() {
                         onClick={() => handleColorSelect(option)}
                         style={{
                             aspectRatio: '1',
-                            borderRadius: '8px',
+                            borderRadius: '12px',           // Slightly more rounded for softer look
                             cursor: 'pointer',
-                            border: isSelected(option) ? `3px solid ${option.primary}` : '2px solid #e5e7eb',
-                            padding: '4px',
-                            background: 'white',
-                            transition: 'all 0.2s',
+                            border: isSelected(option) ? `3px solid ${option.primary}` : '1.5px solid #d1d5db',  // lighter border for unselected
+                            padding: '6px',                 // a bit more breathing room inside
+                            background: isSelected(option) ? option.primary + '20' : 'white', // subtle tinted bg on select (20 = ~12% opacity)
+                            boxShadow: isSelected(option)
+                                ? `0 0 8px ${option.primary}66` // glow shadow on selected, semi-transparent
+                                : '0 1px 3px rgba(0,0,0,0.1)',  // subtle shadow for unselected to lift it up
+                            transition: 'all 0.3s ease',
                             position: 'relative',
-                            overflow: 'hidden'
+                            overflow: 'hidden',
                         }}
                         title={option.name}
                     >
@@ -294,18 +309,25 @@ export default function ThemePicker() {
                             <div style={{
                                 width: '100%',
                                 height: '100%',
+                                borderRadius: '12px',           // match the softer rounded corners
                                 background: 'linear-gradient(45deg, #ff0000 0%, #ff8000 14%, #ffff00 28%, #80ff00 42%, #00ff00 57%, #00ff80 71%, #00ffff 85%, #0080ff 100%)',
-                                borderRadius: '4px',
+                                boxShadow: isSelected(option)
+                                    ? `0 0 8px rgba(255, 255, 255, 0.8)`  // subtle white glow if selected
+                                    : '0 1px 3px rgba(0, 0, 0, 0.1)',      // subtle shadow if not selected
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'center',
                                 fontSize: '16px',
                                 fontWeight: 'bold',
                                 color: 'white',
-                                textShadow: '1px 1px 2px rgba(0,0,0,0.7)'
+                                textShadow: '1px 1px 2px rgba(0, 0, 0, 0.7)',
+                                padding: '6px',                // add consistent padding inside
+                                cursor: 'pointer',
+                                transition: 'all 0.3s ease',
                             }}>
                                 ✨
                             </div>
+
                         ) : (
                             // Team color gradient
                             <div style={{
@@ -317,11 +339,7 @@ export default function ThemePicker() {
                                 alignItems: 'center',
                                 justifyContent: 'center'
                             }}>
-                                {isSelected(option) && (
-                                    <span style={{ color: 'white', fontSize: '18px', fontWeight: 'bold', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>
-                                        ✓
-                                    </span>
-                                )}
+
                             </div>
                         )}
                     </button>
