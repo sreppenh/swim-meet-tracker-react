@@ -8,6 +8,21 @@ import Settings from './components/Settings';
 import { useMeet } from './hooks/useMeet';
 import { ThemeProvider, useTheme } from './contexts/ThemeContext';
 
+// Helper function - PLACE THIS OUTSIDE THE COMPONENT
+function isColorLight(hexColor) {
+  // Convert hex to RGB
+  const hex = hexColor.replace('#', '');
+  const r = parseInt(hex.substr(0, 2), 16);
+  const g = parseInt(hex.substr(2, 2), 16);
+  const b = parseInt(hex.substr(4, 2), 16);
+
+  // Calculate brightness (0-255)
+  const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+
+  // Return true if bright (> 128)
+  return brightness > 128;
+}
+
 
 function SwimMeetTrackerContent() {
   const [isClient, setIsClient] = useState(false);
@@ -31,6 +46,21 @@ function SwimMeetTrackerContent() {
     root.style.setProperty('--theme-primary', theme.primary);
     root.style.setProperty('--theme-secondary', theme.secondary);
     root.style.setProperty('--theme-background', theme.background);
+
+    // ADD THESE LINES to update mobile status bar color:
+    const metaThemeColor = document.querySelector('meta[name="theme-color"]');
+    if (metaThemeColor) {
+      metaThemeColor.setAttribute('content', theme.primary);
+    }
+
+    // Also update Apple status bar color for better iOS support
+    const appleStatusBar = document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]');
+    if (appleStatusBar) {
+      // Use 'default' for light colors, 'black-translucent' for dark
+      const isLightColor = isColorLight(theme.primary);
+      appleStatusBar.setAttribute('content', isLightColor ? 'default' : 'black-translucent');
+    }
+
   }, [theme]);
 
   useEffect(() => {
