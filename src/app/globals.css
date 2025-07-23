@@ -543,6 +543,16 @@ select:focus {
     align-items: center;
 }
 
+
+.standard-list-header--column {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background: #f9fafb;
+    padding: 20px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
 .checklist-header {
     display: flex;
     justify-content: space-between;

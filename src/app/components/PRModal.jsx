@@ -67,30 +67,12 @@ function formatEventNameWithCourse(eventName, courseType) {
 }
 
 function filterEventsByCourse(courseType) {
-    if (courseType === 'LCM') {
-        // Filter out 25s, 100 IM, and 100 relays for long course
-        return SWIM_EVENTS.map(group => {
-            if (group.group === 'Relays') {
-                return {
-                    ...group,
-                    events: []  // No relays in PR modal anyway
-                };
-            }
-            if (group.group === 'Individual Medley') {
-                return {
-                    ...group,
-                    events: group.events.filter(event => !event.includes('100'))
-                };
-            }
-            return {
-                ...group,
-                events: group.events.filter(event => !event.includes('25'))
-            };
-        }).filter(group => group.events.length > 0);
+    if (courseType && SWIM_EVENTS_BY_COURSE[courseType]) {
+        // For PR modal, exclude relays
+        return SWIM_EVENTS_BY_COURSE[courseType].filter(group => group.group !== 'Relays');
     }
-
-    // For SCY and SCM, return all events except relays
-    return SWIM_EVENTS.filter(group => group.group !== 'Relays');
+    // Fallback - show all events except relays (for PR modal)
+    return ALL_SWIM_EVENTS.filter(group => group.group !== 'Relays');
 }
 
 function formatSeedTime(input) {
@@ -167,7 +149,7 @@ export default function PRModal({ swimmer, onSave, onCancel }) {
         onSave(updatedSwimmer);
     };
 
-    const filteredEvents = getEventsByCourse(selectedCourse);
+    const filteredEvents = filterEventsByCourse(selectedCourse);
     const currentCourse = COURSE_TYPES.find(c => c.value === selectedCourse);
 
     return (
@@ -196,26 +178,28 @@ export default function PRModal({ swimmer, onSave, onCancel }) {
                 margin: 0
             }}>
                 {/* Header */}
-                <div className="standard-list-header" style={{
-                    background: '#f9fafb',
-                    borderBottom: '1px solid #e5e7eb'
+                <div style={{
+                    padding: '20px',
+                    borderBottom: '1px solid #e5e7eb',
+                    background: '#f9fafb'
                 }}>
-                    <h3 style={{
-                        margin: '0 0 8px 0',
+                    <div style={{
+                        fontSize: '1.1em',
+                        fontWeight: '600',
                         color: '#374151',
                         display: 'flex',
                         alignItems: 'center',
                         gap: '8px'
                     }}>
-                        ⏱️ PRs - {swimmer?.name}
-                    </h3>
-                    <p style={{
-                        margin: 0,
+                        ⏱️ {swimmer?.name}'s PRs
+                    </div>
+                    <div style={{
                         color: '#6b7280',
-                        fontSize: '0.9em'
+                        fontSize: '0.9em',
+                        marginTop: '8px'
                     }}>
                         Enter PRs to auto-populate seed times when adding events
-                    </p>
+                    </div>
                 </div>
 
                 {/* Course Type Selector */}
@@ -317,6 +301,8 @@ export default function PRModal({ swimmer, onSave, onCancel }) {
                                         </label>
                                         <input
                                             type="text"
+                                            inputMode="numeric"
+                                            pattern="[0-9]*"
                                             value={prTimes[eventName] || ''}
                                             onChange={(e) => handleTimeFormat(eventName, e)}
                                             placeholder="1:23.45"
