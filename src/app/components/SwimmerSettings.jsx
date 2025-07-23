@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Palette, Trash2, Users } from 'lucide-react';
 import { useSwimmers } from '../hooks/useSwimmers';
 import { useEvents } from '../hooks/useEvents';
-import { useTheme } from '../hooks/useTheme';
+import { useTheme } from '../contexts/ThemeContext';
 
 const SWIMMER_ICONS = [
   '🐬', '🦈', '🐊', '🐙', '🐠', '🐟',
@@ -203,6 +203,7 @@ export default function SwimmerSettings() {
   // Theme picker state
   const [settingsView, setSettingsView] = useState('swimmers'); // 'app' or 'swimmers'
   const { theme, presets, applyPreset, updateTheme } = useTheme();
+  console.log('SwimmerSettings theme:', theme);
   const [customColors, setCustomColors] = useState({
     primary: theme.primary,
     secondary: theme.secondary,
@@ -224,6 +225,8 @@ export default function SwimmerSettings() {
     }
   };
 
+
+  console.log('updateTheme function:', updateTheme);
   const applyCustomColors = () => {
     console.log('Apply button clicked!', customColors);
     updateTheme(customColors);
