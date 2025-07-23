@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import MeetSetup from './components/MeetSetup';
 import EventManager from './components/EventManager';
 import ChecklistView from './components/ChecklistView';
-import SwimmerSettings from './components/SwimmerSettings';
+import Settings from './components/Settings';
 import { useMeet } from './hooks/useMeet';
 import { ThemeProvider, useTheme } from './contexts/ThemeContext';
 
@@ -133,7 +133,7 @@ function SwimMeetTrackerContent() {
         <div className="content">
           {currentView === 'manage' && <EventManager />}
           {currentView === 'checklist' && <ChecklistView />}
-          {currentView === 'settings' && <SwimmerSettings />}
+          {currentView === 'settings' && <Settings />}
         </div>
       </div>
     </div>
