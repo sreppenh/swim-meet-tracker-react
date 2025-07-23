@@ -109,30 +109,33 @@ export default function ThemePicker() {
                         onClick={() => handleColorSelect(option)}
                         style={{
                             aspectRatio: '1',
-                            borderRadius: '12px',           // Slightly more rounded for softer look
+                            borderRadius: '12px',
                             cursor: 'pointer',
-                            border: isSelected(option) ? `3px solid ${option.primary}` : '1.5px solid #d1d5db',  // lighter border for unselected
-                            padding: '6px',                 // a bit more breathing room inside
-                            background: isSelected(option) ? option.primary + '20' : 'white', // subtle tinted bg on select (20 = ~12% opacity)
+                            border: isSelected(option) ? `3px solid ${option.primary}` : '1.5px solid #d1d5db',
+                            padding: '8px',                    // Increased from 6px for more consistent buffer
+                            background: isSelected(option) ? option.primary + '20' : 'white',
                             boxShadow: isSelected(option)
-                                ? `0 0 8px ${option.primary}66` // glow shadow on selected, semi-transparent
-                                : '0 1px 3px rgba(0,0,0,0.1)',  // subtle shadow for unselected to lift it up
+                                ? `0 0 8px ${option.primary}66`
+                                : '0 1px 3px rgba(0,0,0,0.1)',
                             transition: 'all 0.3s ease',
                             position: 'relative',
                             overflow: 'hidden',
+                            display: 'flex',                   // Add explicit flex
+                            alignItems: 'center',              // Add explicit centering
+                            justifyContent: 'center',           // Add explicit centering
                         }}
                         title={option.name}
                     >
                         {option.isCustom ? (
                             // Rainbow gradient for custom option
                             <div style={{
-                                width: '100%',
-                                height: '100%',
-                                borderRadius: '12px',           // match the softer rounded corners
+                                width: 'calc(100% - 4px)',        // Slightly smaller to ensure buffer
+                                height: 'calc(100% - 4px)',       // Slightly smaller to ensure buffer
+                                borderRadius: '8px',              // Slightly smaller radius
                                 background: 'linear-gradient(45deg, #ff0000 0%, #ff8000 14%, #ffff00 28%, #80ff00 42%, #00ff00 57%, #00ff80 71%, #00ffff 85%, #0080ff 100%)',
                                 boxShadow: isSelected(option)
-                                    ? `0 0 8px rgba(255, 255, 255, 0.8)`  // subtle white glow if selected
-                                    : '0 1px 3px rgba(0, 0, 0, 0.1)',      // subtle shadow if not selected
+                                    ? `0 0 8px rgba(255, 255, 255, 0.8)`
+                                    : '0 1px 3px rgba(0, 0, 0, 0.1)',
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'center',
@@ -140,25 +143,24 @@ export default function ThemePicker() {
                                 fontWeight: 'bold',
                                 color: 'white',
                                 textShadow: '1px 1px 2px rgba(0, 0, 0, 0.7)',
-                                padding: '6px',                // add consistent padding inside
                                 cursor: 'pointer',
                                 transition: 'all 0.3s ease',
+                                flexShrink: 0,                    // Prevent shrinking on mobile
                             }}>
                                 ✨
                             </div>
-
                         ) : (
                             // Team color gradient
                             <div style={{
-                                width: '100%',
-                                height: '100%',
+                                width: 'calc(100% - 4px)',        // Slightly smaller to ensure buffer
+                                height: 'calc(100% - 4px)',       // Slightly smaller to ensure buffer
                                 background: `linear-gradient(135deg, ${option.primary} 0%, ${option.secondary} 100%)`,
-                                borderRadius: '4px',
+                                borderRadius: '6px',              // Slightly smaller radius
                                 display: 'flex',
                                 alignItems: 'center',
-                                justifyContent: 'center'
+                                justifyContent: 'center',
+                                flexShrink: 0,                    // Prevent shrinking on mobile
                             }}>
-
                             </div>
                         )}
                     </button>
