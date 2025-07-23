@@ -2,40 +2,41 @@
 
 import React, { useState, useEffect } from 'react';
 
-const SWIM_EVENTS = [
-    {
-        group: 'Freestyle', events: [
-            '25 Freestyle', '50 Freestyle', '100 Freestyle', '200 Freestyle',
-            '400 Freestyle', '500 Freestyle', '800 Freestyle', '1000 Freestyle',
-            '1500 Freestyle', '1650 Freestyle'
-        ]
-    },
-    {
-        group: 'Backstroke', events: [
-            '25 Backstroke', '50 Backstroke', '100 Backstroke', '200 Backstroke'
-        ]
-    },
-    {
-        group: 'Breaststroke', events: [
-            '25 Breaststroke', '50 Breaststroke', '100 Breaststroke', '200 Breaststroke'
-        ]
-    },
-    {
-        group: 'Butterfly', events: [
-            '25 Butterfly', '50 Butterfly', '100 Butterfly', '200 Butterfly'
-        ]
-    },
-    {
-        group: 'Individual Medley', events: [
-            '100 Individual Medley', '200 Individual Medley', '400 Individual Medley'
-        ]
-    },
-    {
-        group: 'Relays', events: [
-            '100 Freestyle Relay', '200 Freestyle Relay', '400 Freestyle Relay', '800 Freestyle Relay',
-            '100 Medley Relay', '200 Medley Relay', '400 Medley Relay'
-        ]
-    }
+const SWIM_EVENTS_BY_COURSE = {
+    'SCY': [
+        { group: 'Freestyle', events: ['25 Freestyle', '50 Freestyle', '100 Freestyle', '200 Freestyle', '500 Freestyle', '1000 Freestyle', '1650 Freestyle'] },
+        { group: 'Backstroke', events: ['25 Backstroke', '50 Backstroke', '100 Backstroke', '200 Backstroke'] },
+        { group: 'Breaststroke', events: ['25 Breaststroke', '50 Breaststroke', '100 Breaststroke', '200 Breaststroke'] },
+        { group: 'Butterfly', events: ['25 Butterfly', '50 Butterfly', '100 Butterfly', '200 Butterfly'] },
+        { group: 'Individual Medley', events: ['100 Individual Medley', '200 Individual Medley', '400 Individual Medley'] },
+        { group: 'Relays', events: ['100 Freestyle Relay', '200 Freestyle Relay', '400 Freestyle Relay', '800 Freestyle Relay', '100 Medley Relay', '200 Medley Relay', '400 Medley Relay'] }
+    ],
+    'SCM': [
+        { group: 'Freestyle', events: ['25 Freestyle', '50 Freestyle', '100 Freestyle', '200 Freestyle', '400 Freestyle', '800 Freestyle', '1500 Freestyle'] },
+        { group: 'Backstroke', events: ['25 Backstroke', '50 Backstroke', '100 Backstroke', '200 Backstroke'] },
+        { group: 'Breaststroke', events: ['25 Breaststroke', '50 Breaststroke', '100 Breaststroke', '200 Breaststroke'] },
+        { group: 'Butterfly', events: ['25 Butterfly', '50 Butterfly', '100 Butterfly', '200 Butterfly'] },
+        { group: 'Individual Medley', events: ['100 Individual Medley', '200 Individual Medley', '400 Individual Medley'] },
+        { group: 'Relays', events: ['100 Freestyle Relay', '200 Freestyle Relay', '400 Freestyle Relay', '800 Freestyle Relay', '100 Medley Relay', '200 Medley Relay', '400 Medley Relay'] }
+    ],
+    'LCM': [
+        { group: 'Freestyle', events: ['50 Freestyle', '100 Freestyle', '200 Freestyle', '400 Freestyle', '800 Freestyle', '1500 Freestyle'] },
+        { group: 'Backstroke', events: ['50 Backstroke', '100 Backstroke', '200 Backstroke'] },
+        { group: 'Breaststroke', events: ['50 Breaststroke', '100 Breaststroke', '200 Breaststroke'] },
+        { group: 'Butterfly', events: ['50 Butterfly', '100 Butterfly', '200 Butterfly'] },
+        { group: 'Individual Medley', events: ['200 Individual Medley', '400 Individual Medley'] },
+        { group: 'Relays', events: ['200 Freestyle Relay', '400 Freestyle Relay', '800 Freestyle Relay', '200 Medley Relay', '400 Medley Relay'] }
+    ]
+};
+
+// Fallback for when no course is specified (show all)
+const ALL_SWIM_EVENTS = [
+    { group: 'Freestyle', events: ['25 Freestyle', '50 Freestyle', '100 Freestyle', '200 Freestyle', '400 Freestyle', '500 Freestyle', '800 Freestyle', '1000 Freestyle', '1500 Freestyle', '1650 Freestyle'] },
+    { group: 'Backstroke', events: ['25 Backstroke', '50 Backstroke', '100 Backstroke', '200 Backstroke'] },
+    { group: 'Breaststroke', events: ['25 Breaststroke', '50 Breaststroke', '100 Breaststroke', '200 Breaststroke'] },
+    { group: 'Butterfly', events: ['25 Butterfly', '50 Butterfly', '100 Butterfly', '200 Butterfly'] },
+    { group: 'Individual Medley', events: ['100 Individual Medley', '200 Individual Medley', '400 Individual Medley'] },
+    { group: 'Relays', events: ['100 Freestyle Relay', '200 Freestyle Relay', '400 Freestyle Relay', '800 Freestyle Relay', '100 Medley Relay', '200 Medley Relay', '400 Medley Relay'] }
 ];
 
 const COURSE_TYPES = [
@@ -166,7 +167,7 @@ export default function PRModal({ swimmer, onSave, onCancel }) {
         onSave(updatedSwimmer);
     };
 
-    const filteredEvents = filterEventsByCourse(selectedCourse);
+    const filteredEvents = getEventsByCourse(selectedCourse);
     const currentCourse = COURSE_TYPES.find(c => c.value === selectedCourse);
 
     return (

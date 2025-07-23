@@ -4,33 +4,53 @@ import React, { useState } from 'react';
 import { useSwimmers } from '../hooks/useSwimmers';
 import { useEvents } from '../hooks/useEvents';
 
-const SWIM_EVENTS = [
-  { group: 'Freestyle', events: [
-    '25 Freestyle', '50 Freestyle', '100 Freestyle', '200 Freestyle',
-    '400 Freestyle', '500 Freestyle', '800 Freestyle', '1000 Freestyle',
-    '1500 Freestyle', '1650 Freestyle'
-  ]},
-  { group: 'Backstroke', events: [
-    '25 Backstroke', '50 Backstroke', '100 Backstroke', '200 Backstroke'
-  ]},
-  { group: 'Breaststroke', events: [
-    '25 Breaststroke', '50 Breaststroke', '100 Breaststroke', '200 Breaststroke'
-  ]},
-  { group: 'Butterfly', events: [
-    '25 Butterfly', '50 Butterfly', '100 Butterfly', '200 Butterfly'
-  ]},
-  { group: 'Individual Medley', events: [
-    '100 Individual Medley', '200 Individual Medley', '400 Individual Medley'
-  ]},
-  { group: 'Relays', events: [
-    '100 Freestyle Relay', '200 Freestyle Relay', '400 Freestyle Relay', '800 Freestyle Relay',
-    '100 Medley Relay', '200 Medley Relay', '400 Medley Relay'
-  ]}
+const SWIM_EVENTS_BY_COURSE = {
+  'SCY': [
+    { group: 'Freestyle', events: ['25 Freestyle', '50 Freestyle', '100 Freestyle', '200 Freestyle', '500 Freestyle', '1000 Freestyle', '1650 Freestyle'] },
+    { group: 'Backstroke', events: ['25 Backstroke', '50 Backstroke', '100 Backstroke', '200 Backstroke'] },
+    { group: 'Breaststroke', events: ['25 Breaststroke', '50 Breaststroke', '100 Breaststroke', '200 Breaststroke'] },
+    { group: 'Butterfly', events: ['25 Butterfly', '50 Butterfly', '100 Butterfly', '200 Butterfly'] },
+    { group: 'Individual Medley', events: ['100 Individual Medley', '200 Individual Medley', '400 Individual Medley'] },
+    { group: 'Relays', events: ['100 Freestyle Relay', '200 Freestyle Relay', '400 Freestyle Relay', '800 Freestyle Relay', '100 Medley Relay', '200 Medley Relay', '400 Medley Relay'] }
+  ],
+  'SCM': [
+    { group: 'Freestyle', events: ['25 Freestyle', '50 Freestyle', '100 Freestyle', '200 Freestyle', '400 Freestyle', '800 Freestyle', '1500 Freestyle'] },
+    { group: 'Backstroke', events: ['25 Backstroke', '50 Backstroke', '100 Backstroke', '200 Backstroke'] },
+    { group: 'Breaststroke', events: ['25 Breaststroke', '50 Breaststroke', '100 Breaststroke', '200 Breaststroke'] },
+    { group: 'Butterfly', events: ['25 Butterfly', '50 Butterfly', '100 Butterfly', '200 Butterfly'] },
+    { group: 'Individual Medley', events: ['100 Individual Medley', '200 Individual Medley', '400 Individual Medley'] },
+    { group: 'Relays', events: ['100 Freestyle Relay', '200 Freestyle Relay', '400 Freestyle Relay', '800 Freestyle Relay', '100 Medley Relay', '200 Medley Relay', '400 Medley Relay'] }
+  ],
+  'LCM': [
+    { group: 'Freestyle', events: ['50 Freestyle', '100 Freestyle', '200 Freestyle', '400 Freestyle', '800 Freestyle', '1500 Freestyle'] },
+    { group: 'Backstroke', events: ['50 Backstroke', '100 Backstroke', '200 Backstroke'] },
+    { group: 'Breaststroke', events: ['50 Breaststroke', '100 Breaststroke', '200 Breaststroke'] },
+    { group: 'Butterfly', events: ['50 Butterfly', '100 Butterfly', '200 Butterfly'] },
+    { group: 'Individual Medley', events: ['200 Individual Medley', '400 Individual Medley'] },
+    { group: 'Relays', events: ['200 Freestyle Relay', '400 Freestyle Relay', '800 Freestyle Relay', '200 Medley Relay', '400 Medley Relay'] }
+  ]
+};
+
+// Fallback for when no course is specified (show all)
+const ALL_SWIM_EVENTS = [
+  { group: 'Freestyle', events: ['25 Freestyle', '50 Freestyle', '100 Freestyle', '200 Freestyle', '400 Freestyle', '500 Freestyle', '800 Freestyle', '1000 Freestyle', '1500 Freestyle', '1650 Freestyle'] },
+  { group: 'Backstroke', events: ['25 Backstroke', '50 Backstroke', '100 Backstroke', '200 Backstroke'] },
+  { group: 'Breaststroke', events: ['25 Breaststroke', '50 Breaststroke', '100 Breaststroke', '200 Breaststroke'] },
+  { group: 'Butterfly', events: ['25 Butterfly', '50 Butterfly', '100 Butterfly', '200 Butterfly'] },
+  { group: 'Individual Medley', events: ['100 Individual Medley', '200 Individual Medley', '400 Individual Medley'] },
+  { group: 'Relays', events: ['100 Freestyle Relay', '200 Freestyle Relay', '400 Freestyle Relay', '800 Freestyle Relay', '100 Medley Relay', '200 Medley Relay', '400 Medley Relay'] }
 ];
+
+const getAvailableEvents = () => {
+  if (currentMeet?.poolType && SWIM_EVENTS_BY_COURSE[currentMeet.poolType]) {
+    return SWIM_EVENTS_BY_COURSE[currentMeet.poolType];
+  }
+  return ALL_SWIM_EVENTS;
+};
 
 function abbreviateEventName(eventName) {
   if (!eventName) return eventName;
-  
+
   return eventName
     .replace(/Freestyle Relay/g, 'Free Relay')
     .replace(/Medley Relay/g, 'Med Relay')
@@ -39,6 +59,15 @@ function abbreviateEventName(eventName) {
     .replace(/Backstroke/g, 'Back')
     .replace(/Breaststroke/g, 'Breast')
     .replace(/Butterfly/g, 'Fly');
+}
+
+function getEventsByCourse(courseType) {
+  if (courseType && SWIM_EVENTS_BY_COURSE[courseType]) {
+    // For PR modal, exclude relays
+    return SWIM_EVENTS_BY_COURSE[courseType].filter(group => group.group !== 'Relays');
+  }
+  // Fallback - show all events except relays (for PR modal)
+  return ALL_SWIM_EVENTS.filter(group => group.group !== 'Relays');
 }
 
 function isRelayEvent(eventName) {
@@ -56,12 +85,12 @@ function getEventIcon(eventName, relayPosition) {
 
 function formatSeedTime(input) {
   let value = input.value.replace(/[^\d]/g, ''); // Remove all non-digits
-  
+
   if (value.length === 0) {
     input.value = '';
     return;
   }
-  
+
   // Format based on length
   if (value.length <= 4) {
     // For times like 23.45 (under 1 minute)
@@ -90,7 +119,7 @@ function formatSeedTime(input) {
 export default function EventManager() {
   const { swimmers, addSwimmer, getSwimmerByName, getAvailableColorIndex } = useSwimmers();
   const { events, addEvent, deleteEvent, getSortedEvents } = useEvents();
-  
+
   const [swimmerName, setSwimmerName] = useState('');
   const [eventNumber, setEventNumber] = useState('');
   const [heat, setHeat] = useState('');
@@ -133,7 +162,7 @@ export default function EventManager() {
     };
 
     addEvent(eventData);
-    
+
     // Clear form except swimmer name (for easy re-entry)
     setEventNumber('');
     setHeat('');
@@ -146,7 +175,7 @@ export default function EventManager() {
   const handleSeedTimeChange = (e) => {
     const newValue = e.target.value;
     setSeedTime(newValue);
-    
+
     // Use setTimeout to ensure the state is updated before formatting
     setTimeout(() => {
       formatSeedTime(e.target);
@@ -209,7 +238,7 @@ export default function EventManager() {
             />
           </div>
         </div>
-        
+
         <div className="form-row">
           <div className="form-group">
             <label htmlFor="eventName">Event Name (optional)</label>
@@ -220,13 +249,24 @@ export default function EventManager() {
               className="form-input"
             >
               <option value="">Select an event...</option>
-              {SWIM_EVENTS.map(group => (
+
+
+              {/* {SWIM_EVENTS.map(group => (
+                <optgroup key={group.group} label={group.group}>
+                  {group.events.map(event => (
+                    <option key={event} value={event}>{event}</option>
+                  ))}
+                </optgroup>
+              ))} */}
+
+              {getAvailableEvents(currentMeet).map(group => (
                 <optgroup key={group.group} label={group.group}>
                   {group.events.map(event => (
                     <option key={event} value={event}>{event}</option>
                   ))}
                 </optgroup>
               ))}
+
             </select>
           </div>
           <div className="form-group">
@@ -303,23 +343,23 @@ export default function EventManager() {
                     <span className="compact-heat">H{event.heat}</span>
                     <span className="compact-lane">L{event.lane}</span>
                   </div>
-                  <button 
-  className="btn-danger" 
-  onClick={() => {
-    if (confirm('Are you sure you want to delete this event?')) {
-      deleteEvent(event.id);
-    }
-  }}
-  title="Delete event"
-  style={{
-    padding: '4px 6px',
-    fontSize: '12px',
-    minWidth: '28px',
-    minHeight: '28px'
-  }}
->
-  ×
-</button>
+                  <button
+                    className="btn-danger"
+                    onClick={() => {
+                      if (confirm('Are you sure you want to delete this event?')) {
+                        deleteEvent(event.id);
+                      }
+                    }}
+                    title="Delete event"
+                    style={{
+                      padding: '4px 6px',
+                      fontSize: '12px',
+                      minWidth: '28px',
+                      minHeight: '28px'
+                    }}
+                  >
+                    ×
+                  </button>
                 </div>
               );
             })

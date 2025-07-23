@@ -1,2 +1,8 @@
 node_modules
 .next
+
+# Unused/experimental files
+**/xx*.jsx
+**/xx*.js
+**/xx*.ts
+**/xx*.tsx

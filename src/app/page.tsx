@@ -24,6 +24,7 @@ function isColorLight(hexColor) {
 }
 
 
+
 function SwimMeetTrackerContent() {
   const [isClient, setIsClient] = useState(false);
   const [currentView, setCurrentView] = useState('manage');
