@@ -4,34 +4,7 @@ import React, { useState } from 'react';
 import { useSwimmers } from '../hooks/useSwimmers';
 import { useEvents } from '../hooks/useEvents';
 import { useMeet } from '../hooks/useMeet';
-
-function abbreviateEventName(eventName) {
-  if (!eventName) return eventName;
-
-  return eventName
-    .replace(/Freestyle Relay/g, 'Free Relay')
-    .replace(/Medley Relay/g, 'Med Relay')
-    .replace(/Individual Medley/g, 'IM')
-    .replace(/Freestyle/g, 'Free')
-    .replace(/Backstroke/g, 'Back')
-    .replace(/Breaststroke/g, 'Breast')
-    .replace(/Butterfly/g, 'Fly');
-}
-
-
-
-function isRelayEvent(eventName) {
-  if (!eventName) return false;
-  return eventName.toLowerCase().includes('relay');
-}
-
-function getEventIcon(eventName, relayPosition) {
-  const isRelay = isRelayEvent(eventName);
-  if (isRelay) {
-    return relayPosition ? `🤝 (${relayPosition})` : '🤝';
-  }
-  return '🏊‍♀️';
-}
+import { abbreviateEventName, isRelayEvent, getEventIcon } from '../../lib/swimming';
 
 export default function ChecklistView() {
   const { swimmers } = useSwimmers();

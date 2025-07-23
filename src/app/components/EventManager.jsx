@@ -4,113 +4,13 @@ import React, { useState } from 'react';
 import { useSwimmers } from '../hooks/useSwimmers';
 import { useEvents } from '../hooks/useEvents';
 import { useMeet } from '../hooks/useMeet';
-
-const SWIM_EVENTS_BY_COURSE = {
-  'SCY': [
-    { group: 'Freestyle', events: ['25 Freestyle', '50 Freestyle', '100 Freestyle', '200 Freestyle', '500 Freestyle', '1000 Freestyle', '1650 Freestyle'] },
-    { group: 'Backstroke', events: ['25 Backstroke', '50 Backstroke', '100 Backstroke', '200 Backstroke'] },
-    { group: 'Breaststroke', events: ['25 Breaststroke', '50 Breaststroke', '100 Breaststroke', '200 Breaststroke'] },
-    { group: 'Butterfly', events: ['25 Butterfly', '50 Butterfly', '100 Butterfly', '200 Butterfly'] },
-    { group: 'Individual Medley', events: ['100 Individual Medley', '200 Individual Medley', '400 Individual Medley'] },
-    { group: 'Relays', events: ['100 Freestyle Relay', '200 Freestyle Relay', '400 Freestyle Relay', '800 Freestyle Relay', '100 Medley Relay', '200 Medley Relay', '400 Medley Relay'] }
-  ],
-  'SCM': [
-    { group: 'Freestyle', events: ['25 Freestyle', '50 Freestyle', '100 Freestyle', '200 Freestyle', '400 Freestyle', '800 Freestyle', '1500 Freestyle'] },
-    { group: 'Backstroke', events: ['25 Backstroke', '50 Backstroke', '100 Backstroke', '200 Backstroke'] },
-    { group: 'Breaststroke', events: ['25 Breaststroke', '50 Breaststroke', '100 Breaststroke', '200 Breaststroke'] },
-    { group: 'Butterfly', events: ['25 Butterfly', '50 Butterfly', '100 Butterfly', '200 Butterfly'] },
-    { group: 'Individual Medley', events: ['100 Individual Medley', '200 Individual Medley', '400 Individual Medley'] },
-    { group: 'Relays', events: ['100 Freestyle Relay', '200 Freestyle Relay', '400 Freestyle Relay', '800 Freestyle Relay', '100 Medley Relay', '200 Medley Relay', '400 Medley Relay'] }
-  ],
-  'LCM': [
-    { group: 'Freestyle', events: ['50 Freestyle', '100 Freestyle', '200 Freestyle', '400 Freestyle', '800 Freestyle', '1500 Freestyle'] },
-    { group: 'Backstroke', events: ['50 Backstroke', '100 Backstroke', '200 Backstroke'] },
-    { group: 'Breaststroke', events: ['50 Breaststroke', '100 Breaststroke', '200 Breaststroke'] },
-    { group: 'Butterfly', events: ['50 Butterfly', '100 Butterfly', '200 Butterfly'] },
-    { group: 'Individual Medley', events: ['200 Individual Medley', '400 Individual Medley'] },
-    { group: 'Relays', events: ['200 Freestyle Relay', '400 Freestyle Relay', '800 Freestyle Relay', '200 Medley Relay', '400 Medley Relay'] }
-  ]
-};
-
-// Fallback for when no course is specified (show all)
-const ALL_SWIM_EVENTS = [
-  { group: 'Freestyle', events: ['25 Freestyle', '50 Freestyle', '100 Freestyle', '200 Freestyle', '400 Freestyle', '500 Freestyle', '800 Freestyle', '1000 Freestyle', '1500 Freestyle', '1650 Freestyle'] },
-  { group: 'Backstroke', events: ['25 Backstroke', '50 Backstroke', '100 Backstroke', '200 Backstroke'] },
-  { group: 'Breaststroke', events: ['25 Breaststroke', '50 Breaststroke', '100 Breaststroke', '200 Breaststroke'] },
-  { group: 'Butterfly', events: ['25 Butterfly', '50 Butterfly', '100 Butterfly', '200 Butterfly'] },
-  { group: 'Individual Medley', events: ['100 Individual Medley', '200 Individual Medley', '400 Individual Medley'] },
-  { group: 'Relays', events: ['100 Freestyle Relay', '200 Freestyle Relay', '400 Freestyle Relay', '800 Freestyle Relay', '100 Medley Relay', '200 Medley Relay', '400 Medley Relay'] }
-];
-
-
-
-function abbreviateEventName(eventName) {
-  if (!eventName) return eventName;
-
-  return eventName
-    .replace(/Freestyle Relay/g, 'Free Relay')
-    .replace(/Medley Relay/g, 'Med Relay')
-    .replace(/Individual Medley/g, 'IM')
-    .replace(/Freestyle/g, 'Free')
-    .replace(/Backstroke/g, 'Back')
-    .replace(/Breaststroke/g, 'Breast')
-    .replace(/Butterfly/g, 'Fly');
-}
-
-function getEventsByCourse(courseType) {
-  if (courseType && SWIM_EVENTS_BY_COURSE[courseType]) {
-    // For PR modal, exclude relays
-    return SWIM_EVENTS_BY_COURSE[courseType].filter(group => group.group !== 'Relays');
-  }
-  // Fallback - show all events except relays (for PR modal)
-  return ALL_SWIM_EVENTS.filter(group => group.group !== 'Relays');
-}
-
-function isRelayEvent(eventName) {
-  if (!eventName) return false;
-  return eventName.toLowerCase().includes('relay');
-}
-
-function getEventIcon(eventName, relayPosition) {
-  const isRelay = isRelayEvent(eventName);
-  if (isRelay) {
-    return relayPosition ? `🤝 (${relayPosition})` : '🤝';
-  }
-  return '🏊‍♀️';
-}
-
-function formatSeedTime(input) {
-  let value = input.value.replace(/[^\d]/g, ''); // Remove all non-digits
-
-  if (value.length === 0) {
-    input.value = '';
-    return;
-  }
-
-  // Format based on length
-  if (value.length <= 4) {
-    // For times like 23.45 (under 1 minute)
-    if (value.length > 2) {
-      input.value = value.slice(0, 2) + '.' + value.slice(2);
-    } else {
-      input.value = value;
-    }
-  } else {
-    // For times like 1:23.45 (over 1 minute)
-    if (value.length === 5) {
-      input.value = value.slice(0, 1) + ':' + value.slice(1, 3) + '.' + value.slice(3);
-    } else if (value.length === 6) {
-      input.value = value.slice(0, 2) + ':' + value.slice(2, 4) + '.' + value.slice(4);
-    } else if (value.length > 6) {
-      // Limit to 6 digits max (e.g., 12:34.56)
-      value = value.slice(0, 6);
-      input.value = value.slice(0, 2) + ':' + value.slice(2, 4) + '.' + value.slice(4);
-    } else {
-      // 4 digits: add colon
-      input.value = value.slice(0, 1) + ':' + value.slice(1);
-    }
-  }
-}
+import {
+  getAvailableEvents,
+  abbreviateEventName,
+  isRelayEvent,
+  getEventIcon,
+  formatSeedTime
+} from '../../lib/swimming';
 
 export default function EventManager() {
   const { swimmers, addSwimmer, getSwimmerByName, getAvailableColorIndex } = useSwimmers();
@@ -128,12 +28,8 @@ export default function EventManager() {
   const isRelay = eventName.toLowerCase().includes('relay');
   const sortedEvents = getSortedEvents();
 
-  const getAvailableEvents = () => {
-    if (currentMeet?.poolType && SWIM_EVENTS_BY_COURSE[currentMeet.poolType]) {
-      return SWIM_EVENTS_BY_COURSE[currentMeet.poolType];
-    }
-    return ALL_SWIM_EVENTS;
-  };
+
+
 
   const handleAddEvent = () => {
     if (!swimmerName.trim() || !eventNumber || !heat || !lane) {
@@ -261,15 +157,7 @@ export default function EventManager() {
               <option value="">Select an event...</option>
 
 
-              {/* {SWIM_EVENTS.map(group => (
-                <optgroup key={group.group} label={group.group}>
-                  {group.events.map(event => (
-                    <option key={event} value={event}>{event}</option>
-                  ))}
-                </optgroup>
-              ))} */}
-
-              {getAvailableEvents().map(group => (
+              {getAvailableEvents(currentMeet?.poolType).map(group => (
                 <optgroup key={group.group} label={group.group}>
                   {group.events.map(event => (
                     <option key={event} value={event}>{event}</option>
