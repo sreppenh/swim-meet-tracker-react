@@ -7,7 +7,7 @@ import { useMeet } from '../hooks/useMeet';
 
 function abbreviateEventName(eventName) {
   if (!eventName) return eventName;
-  
+
   return eventName
     .replace(/Freestyle Relay/g, 'Free Relay')
     .replace(/Medley Relay/g, 'Med Relay')
@@ -39,14 +39,14 @@ export default function ChecklistView() {
   const { currentMeet } = useMeet();
 
   const [showShareModal, setShowShareModal] = useState(false);
-  
+
 
   const sortedEvents = getSortedEvents();
 
   const generateShareText = () => {
-  
+
     if (sortedEvents.length === 0) return 'No events to share!';
-    
+
     // Start with meet information
     let shareText = `🏊‍♀️ ${currentMeet?.name || 'Swim Meet'} Event List\n`;
     if (currentMeet?.poolType) {
@@ -56,25 +56,25 @@ export default function ChecklistView() {
       shareText += `Date: ${new Date(currentMeet.date).toLocaleDateString()}\n`;
     }
     shareText += '\n';
-    
+
     sortedEvents.forEach(event => {
       const swimmer = swimmers.find(s => s.id === event.swimmerId);
       if (!swimmer) return;
-      
+
       const relayInfo = event.relayPosition ? ` (Position ${event.relayPosition})` : '';
       const seedInfo = event.seedTime ? ` - Seed: ${event.seedTime}` : '';
-      
+
       shareText += `${swimmer.icon} Event ${event.eventNumber}: ${swimmer.name}\n`;
       shareText += `   ${abbreviateEventName(event.eventName) || 'Event ' + event.eventNumber}${relayInfo}\n`;
       shareText += `   Heat ${event.heat}, Lane ${event.lane}${seedInfo}\n\n`;
     });
-    
+
     return shareText;
   };
 
   const shareEventList = () => {
     const shareText = generateShareText();
-    
+
     if (navigator.share && window.isSecureContext) {
       navigator.share({
         title: 'Swim Meet Event List',
@@ -101,7 +101,7 @@ export default function ChecklistView() {
 
   const ShareModal = () => {
     const shareText = generateShareText();
-    
+
     return (
       <div style={{
         position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
@@ -114,29 +114,29 @@ export default function ChecklistView() {
           maxWidth: '500px', maxHeight: '80vh', overflowY: 'auto'
         }}>
           <h3 style={{ marginBottom: '15px' }}>Event List Ready to Share</h3>
-          <textarea 
-            readOnly 
+          <textarea
+            readOnly
             value={shareText}
             style={{
-              width: '100%', height: '300px', padding: '10px', 
-              border: '1px solid #ccc', borderRadius: '6px', 
+              width: '100%', height: '300px', padding: '10px',
+              border: '1px solid #ccc', borderRadius: '6px',
               fontFamily: 'monospace', fontSize: '12px', resize: 'vertical'
             }}
             onClick={(e) => e.target.select()}
           />
           <div style={{ marginTop: '15px', textAlign: 'center' }}>
-            <button 
+            <button
               onClick={() => setShowShareModal(false)}
               style={{
-                background: '#4facfe', color: 'white', border: 'none', 
+                background: '#4facfe', color: 'white', border: 'none',
                 padding: '10px 20px', borderRadius: '6px', cursor: 'pointer'
               }}
             >
               Close
             </button>
           </div>
-          <p style={{ 
-            marginTop: '10px', fontSize: '12px', color: '#666', textAlign: 'center' 
+          <p style={{
+            marginTop: '10px', fontSize: '12px', color: '#666', textAlign: 'center'
           }}>
             Select all text above and copy to share via text or email
           </p>
@@ -176,8 +176,8 @@ export default function ChecklistView() {
             if (!swimmer) return null;
 
             return (
-              <div 
-                key={event.id} 
+              <div
+                key={event.id}
                 className={`standard-list-item ${event.completed ? 'completed' : ''}`}
               >
                 <div className={`compact-event-number swimmer-color-${swimmer.colorIndex}`}>
@@ -200,7 +200,7 @@ export default function ChecklistView() {
                   <span className="compact-heat">H{event.heat}</span>
                   <span className="compact-lane">L{event.lane}</span>
                 </div>
-                <div 
+                <div
                   className={`custom-checkbox ${event.completed ? 'checked' : ''}`}
                   onClick={() => toggleEventCompleted(event.id)}
                   style={{ cursor: 'pointer' }}
