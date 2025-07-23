@@ -194,7 +194,11 @@ export default function SwimmerManager() {
         <div>
             <div className="standard-list">
                 <div className="standard-list-header">
-                    <h3 style={{ color: '#374151' }}>Swimmers</h3>
+                    <div style={{
+                        fontSize: '1.1em',
+                        fontWeight: '600',
+                        color: '#374151'
+                    }}>Swimmers</div>
                     <span className="events-count">{swimmers.length} swimmer{swimmers.length !== 1 ? 's' : ''}</span>
                 </div>
 
@@ -228,7 +232,11 @@ export default function SwimmerManager() {
                                     </div>
                                 </div>
                                 <div style={{ flex: 1 }}>
-                                    <div style={{ fontWeight: '600', color: '#374151' }}>
+                                    <div style={{
+                                        fontWeight: '500',  // Reduced from 600
+                                        fontSize: '0.95em', // Slightly smaller
+                                        color: '#374151'
+                                    }}>
                                         {swimmer.name}
                                     </div>
                                 </div>
@@ -237,14 +245,17 @@ export default function SwimmerManager() {
                                         onClick={() => setEditingPRs(swimmer)}
                                         className="btn-secondary"
                                         style={{
-                                            padding: '4px 8px',
-                                            fontSize: '12px',
-                                            height: '28px',
-                                            minHeight: '28px'
+                                            padding: '6px',
+                                            fontSize: '16px',
+                                            minWidth: '32px',
+                                            minHeight: '32px',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center'
                                         }}
                                         title="Manage Personal Records"
                                     >
-                                        ⏱️ PRs
+                                        ⏱️
                                     </button>
 
 
@@ -255,13 +266,17 @@ export default function SwimmerManager() {
                                         onClick={() => setEditingSwimmer(swimmer)}
                                         className="btn-secondary"
                                         style={{
-                                            padding: '4px 8px',
-                                            fontSize: '12px',
-                                            height: '28px',
-                                            minHeight: '28px'
+                                            padding: '6px',
+                                            fontSize: '16px',
+                                            minWidth: '32px',
+                                            minHeight: '32px',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center'
                                         }}
+                                        title="Edit swimmer"
                                     >
-                                        🎨 Edit
+                                        🎨
                                     </button>
 
                                     <button

@@ -243,7 +243,12 @@ export default function ThemePicker() {
 
     return (
         <div>
-            <h3 style={{ marginBottom: '20px', color: '#374151' }}>Team Colors</h3>
+            <div style={{
+                fontSize: '1.1em',
+                fontWeight: '600',
+                marginBottom: '16px',
+                color: '#374151'
+            }}>Team Colors</div>
 
             {/* Selected Color Name */}
             {selectedColorName && (
