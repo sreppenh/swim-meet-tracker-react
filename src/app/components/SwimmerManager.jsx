@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Palette, Trash2 } from 'lucide-react';
 import { useSwimmers } from '../hooks/useSwimmers';
 import { useEvents } from '../hooks/useEvents';
+import PRModal from './PRModal';
 
 const SWIMMER_ICONS = [
     '🐬', '🦈', '🐊', '🐙', '🐠', '🐟',
@@ -166,6 +167,13 @@ export default function SwimmerManager() {
     const { swimmers, updateSwimmer, deleteSwimmer } = useSwimmers();
     const { events, deleteEventsBySwimmer } = useEvents();
     const [editingSwimmer, setEditingSwimmer] = useState(null);
+    const [editingPRs, setEditingPRs] = useState(null);
+
+    // Add this function to handle PR updates:
+    const handleUpdatePRs = (updatedSwimmer) => {
+        updateSwimmer(updatedSwimmer.id, updatedSwimmer);
+        setEditingPRs(null);
+    };
 
     const handleDeleteSwimmer = (swimmer) => {
         const swimmerEvents = events.filter(e => e.swimmerId === swimmer.id);
@@ -226,6 +234,24 @@ export default function SwimmerManager() {
                                 </div>
                                 <div style={{ display: 'flex', gap: '8px' }}>
                                     <button
+                                        onClick={() => setEditingPRs(swimmer)}
+                                        className="btn-secondary"
+                                        style={{
+                                            padding: '4px 8px',
+                                            fontSize: '12px',
+                                            height: '28px',
+                                            minHeight: '28px'
+                                        }}
+                                        title="Manage Personal Records"
+                                    >
+                                        ⏱️ PRs
+                                    </button>
+
+
+
+
+
+                                    <button
                                         onClick={() => setEditingSwimmer(swimmer)}
                                         className="btn-secondary"
                                         style={{
@@ -270,6 +296,15 @@ export default function SwimmerManager() {
                         setEditingSwimmer(null);
                     }}
                     onCancel={() => setEditingSwimmer(null)}
+                />
+            )}
+
+            {/* PR Management Modal */}
+            {editingPRs && (
+                <PRModal
+                    swimmer={editingPRs}
+                    onSave={handleUpdatePRs}
+                    onCancel={() => setEditingPRs(null)}
                 />
             )}
         </div>
