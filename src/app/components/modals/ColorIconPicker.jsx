@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { SWIMMER_ICONS, SWIMMER_COLORS } from '../../lib/constants';
+import { SWIMMER_ICONS, SWIMMER_COLORS } from '../../../lib/constants';
 
 // Color/Icon Picker Modal - keeping your exact original design
 const ColorIconPicker = ({ swimmer, onUpdate, onCancel }) => {
