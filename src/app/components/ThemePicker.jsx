@@ -129,9 +129,9 @@ export default function ThemePicker() {
                         {option.isCustom ? (
                             // Rainbow gradient for custom option
                             <div style={{
-                                width: 'calc(100% - 4px)',        // Slightly smaller to ensure buffer
-                                height: 'calc(100% - 4px)',       // Slightly smaller to ensure buffer
-                                borderRadius: '8px',              // Slightly smaller radius
+                                width: '40px',                    // Fixed size for consistent buffer
+                                height: '40px',                   // Fixed size for consistent buffer
+                                borderRadius: '8px',
                                 background: 'linear-gradient(45deg, #ff0000 0%, #ff8000 14%, #ffff00 28%, #80ff00 42%, #00ff00 57%, #00ff80 71%, #00ffff 85%, #0080ff 100%)',
                                 boxShadow: isSelected(option)
                                     ? `0 0 8px rgba(255, 255, 255, 0.8)`
@@ -145,21 +145,21 @@ export default function ThemePicker() {
                                 textShadow: '1px 1px 2px rgba(0, 0, 0, 0.7)',
                                 cursor: 'pointer',
                                 transition: 'all 0.3s ease',
-                                flexShrink: 0,                    // Prevent shrinking on mobile
+                                flexShrink: 0,
                             }}>
                                 ✨
                             </div>
                         ) : (
                             // Team color gradient
                             <div style={{
-                                width: 'calc(100% - 4px)',        // Slightly smaller to ensure buffer
-                                height: 'calc(100% - 4px)',       // Slightly smaller to ensure buffer
+                                width: '40px',                    // Fixed size for consistent buffer
+                                height: '40px',                   // Fixed size for consistent buffer
                                 background: `linear-gradient(135deg, ${option.primary} 0%, ${option.secondary} 100%)`,
-                                borderRadius: '6px',              // Slightly smaller radius
+                                borderRadius: '6px',
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'center',
-                                flexShrink: 0,                    // Prevent shrinking on mobile
+                                flexShrink: 0,
                             }}>
                             </div>
                         )}
