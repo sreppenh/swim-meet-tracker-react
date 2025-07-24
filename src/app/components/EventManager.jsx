@@ -194,7 +194,9 @@ export default function EventManager() {
                   <>
                     <label htmlFor="seedTime">Seed Time (optional)</label>
                     <input
-                      type="text"
+                      type="number"
+                      inputMode="numeric"
+                      pattern="[0-9]*"
                       id="seedTime"
                       value={seedTime}
                       onChange={handleSeedTimeChange}
