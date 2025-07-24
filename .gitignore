@@ -6,3 +6,5 @@ node_modules
 **/xx*.js
 **/xx*.ts
 **/xx*.tsx
+
+.DS_Store
