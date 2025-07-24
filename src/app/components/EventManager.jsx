@@ -194,7 +194,7 @@ export default function EventManager() {
                   <>
                     <label htmlFor="seedTime">Seed Time (optional)</label>
                     <input
-                      type="number"
+                      type="text"
                       inputMode="numeric"
                       pattern="[0-9]*"
                       id="seedTime"
