@@ -15,7 +15,6 @@ export default function RootLayout({
     <html lang="en">
       <head>
         {/* Standard favicon */}
-        <link rel="icon" href="/favicon/favicon.ico" sizes="any" />
         <link rel="icon" href="/favicon/favicon.svg" type="image/svg+xml" />
 
         {/* Apple Touch Icon */}
