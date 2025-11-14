@@ -24,6 +24,7 @@ export interface Event {
   lane: number;
   eventName?: string;
   seedTime?: string;
+  targetTime?: string;
   relayPosition?: string;
   completed: boolean;
   createdAt: Date;
@@ -47,9 +48,9 @@ export interface AppState {
 export type ViewMode = 'manage' | 'checklist' | 'swimmers';
 
 export const SWIMMER_ICONS = [
-  '🐬', '🦈', '🐊', '🐙', '🐠', '🐟', 
-  '🦭','🐳', '🦑', '🌊', '⭐', '🚀', 
-  '🔥', '💎', '🎯', '🏆', '🎪', '🎨', 
+  '🐬', '🦈', '🐊', '🐙', '🐠', '🐟',
+  '🦭', '🐳', '🦑', '🌊', '⭐', '🚀',
+  '🔥', '💎', '🎯', '🏆', '🎪', '🎨',
   '🎭', '🎸', '🦄', '🌟', '💫', '🎈'
 ] as const;
 

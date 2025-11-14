@@ -23,6 +23,7 @@ export default function EventManager() {
   const [lane, setLane] = useState('');
   const [eventName, setEventName] = useState('');
   const [seedTime, setSeedTime] = useState('');
+  const [targetTime, setTargetTime] = useState('');
   const [relayPosition, setRelayPosition] = useState('');
 
   const isRelay = eventName.toLowerCase().includes('relay');
@@ -58,6 +59,7 @@ export default function EventManager() {
       eventName: eventName || undefined,
       seedTime: getSwimmerPR(swimmerName.trim(), eventName, currentMeet?.poolType || 'SCY') || seedTime || undefined,
       seedTimeSource: getSwimmerPR(swimmerName.trim(), eventName, currentMeet?.poolType || 'SCY') ? 'pr' : (seedTime ? 'manual' : undefined),
+      targetTime: targetTime || undefined,
       relayPosition: relayPosition || undefined,
       completed: false,
     };
@@ -70,6 +72,7 @@ export default function EventManager() {
     setLane('');
     setEventName('');
     setSeedTime('');
+    setTargetTime('');
     setRelayPosition('');
   };
 
@@ -81,6 +84,17 @@ export default function EventManager() {
     setTimeout(() => {
       formatSeedTime(e.target);
       setSeedTime(e.target.value);
+    }, 0);
+  };
+
+  const handleTargetTimeChange = (e) => {
+    const newValue = e.target.value;
+    setTargetTime(newValue);
+
+    // Use setTimeout to ensure the state is updated before formatting
+    setTimeout(() => {
+      formatSeedTime(e.target);
+      setTargetTime(e.target.value);
     }, 0);
   };
 
@@ -208,6 +222,21 @@ export default function EventManager() {
               }
             })()}
           </div>
+
+          <div className="form-group">
+            <label htmlFor="targetTime">Target Time (optional)</label>
+            <input
+              type="text"
+              inputMode="numeric"
+              pattern="[0-9]*"
+              id="targetTime"
+              value={targetTime}
+              onChange={handleTargetTimeChange}
+              placeholder="e.g., 1:20.00"
+              className="form-input"
+            />
+          </div>
+
           {isRelay && (
             <div className="form-group">
               <label htmlFor="relayPosition">Relay Position (optional)</label>
@@ -267,6 +296,13 @@ export default function EventManager() {
                           {event.seedTimeSource === 'pr' ? 'PR' : 'Seed'}: {event.seedTime}
                         </span>
                       )}
+                      {/* ✨ ADD THIS SECTION */}
+                      {event.targetTime && (
+                        <span style={{ flexShrink: 0, color: '#059669', fontWeight: '600' }}>
+                          Target: {event.targetTime}
+                        </span>
+                      )}
+
                     </div>
                   </div>
                   <div className="compact-heat-lane">
@@ -296,6 +332,6 @@ export default function EventManager() {
           )}
         </div>
       </div>
-    </div>
+    </div >
   );
 }

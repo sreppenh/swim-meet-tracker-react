@@ -37,10 +37,11 @@ export default function ChecklistView() {
       const relayInfo = event.relayPosition ? ` (Position ${event.relayPosition})` : '';
       const timeLabel = event.seedTimeSource === 'pr' ? 'PR' : 'Seed';
       const seedInfo = event.seedTime ? ` - ${timeLabel}: ${event.seedTime}` : '';
+      const targetInfo = event.targetTime ? ` - Target: ${event.targetTime}` : '';  // ✨ ADD THIS LINE
 
       shareText += `${swimmer.icon} Event ${event.eventNumber}: ${swimmer.name}\n`;
       shareText += `   ${abbreviateEventName(event.eventName) || 'Event ' + event.eventNumber}${relayInfo}\n`;
-      shareText += `   Heat ${event.heat}, Lane ${event.lane}${seedInfo}\n\n`;
+      shareText += `   Heat ${event.heat}, Lane ${event.lane}${seedInfo}${targetInfo}\n\n`;  // ✨ UPDATE THIS LINE
     });
 
     return shareText;
@@ -168,6 +169,11 @@ export default function ChecklistView() {
                     {event.seedTime && (
                       <span style={{ flexShrink: 0 }}>
                         {event.seedTimeSource === 'pr' ? 'PR' : 'Seed'}: {event.seedTime}
+                      </span>
+                    )}
+                    {event.targetTime && (
+                      <span style={{ flexShrink: 0, color: '#059669', fontWeight: '600' }}>
+                        Target: {event.targetTime}
                       </span>
                     )}
                   </div>
