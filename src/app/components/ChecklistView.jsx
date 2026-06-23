@@ -41,7 +41,9 @@ export default function ChecklistView() {
 
       shareText += `${swimmer.icon} Event ${event.eventNumber}: ${swimmer.name}\n`;
       shareText += `   ${abbreviateEventName(event.eventName) || 'Event ' + event.eventNumber}${relayInfo}\n`;
-      shareText += `   Heat ${event.heat}, Lane ${event.lane}${seedInfo}${targetInfo}\n\n`;  // ✨ UPDATE THIS LINE
+      const heatLabel = event.heat != null ? `Heat ${event.heat}` : 'Heat —';
+      const laneLabel = event.lane != null ? `Lane ${event.lane}` : 'Lane —';
+      shareText += `   ${heatLabel}, ${laneLabel}${seedInfo}${targetInfo}\n\n`;
     });
 
     return shareText;
@@ -179,8 +181,8 @@ export default function ChecklistView() {
                   </div>
                 </div>
                 <div className="compact-heat-lane">
-                  <span className="compact-heat">H{event.heat}</span>
-                  <span className="compact-lane">L{event.lane}</span>
+                  <span className="compact-heat">H{event.heat ?? '—'}</span>
+                  <span className="compact-lane">L{event.lane ?? '—'}</span>
                 </div>
                 <div
                   className={`custom-checkbox ${event.completed ? 'checked' : ''}`}
